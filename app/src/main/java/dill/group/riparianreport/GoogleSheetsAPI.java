@@ -1,6 +1,7 @@
 package dill.group.riparianreport;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.auth.oauth2.GoogleCredentials;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
@@ -17,6 +18,7 @@ import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.SheetsScopes;
 import com.google.api.services.sheets.v4.model.AppendValuesResponse;
 import com.google.api.services.sheets.v4.model.ValueRange;
+import com.google.auth.http.HttpCredentialsAdapter;
 
 public class GoogleSheetsAPI {
     private static final String APPLICATION_NAME = "Your Application Name";
@@ -29,15 +31,9 @@ public class GoogleSheetsAPI {
     private Sheets sheetsService;
 
     public GoogleSheetsAPI() throws GeneralSecurityException, IOException {
-        GoogleCredential credential = new GoogleCredential.Builder()
-                .setTransport(HTTP_TRANSPORT)
-                .setJsonFactory(JSON_FACTORY)
-                .setServiceAccountId(SERVICE_ACCOUNT_ID)
-                .setServiceAccountPrivateKeyFromP12File(new File(P12_FILE_PATH))
-                .setServiceAccountScopes(Arrays.asList(SheetsScopes.SPREADSHEETS))
-                .build();
-
-        sheetsService = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
+        GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(new File("path/to/your/credentials.json")))
+                .createScoped(Arrays.asList(SheetsScopes.SPREADSHEETS));
+        sheetsService = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, new HttpCredentialsAdapter(credentials))
                 .setApplicationName(APPLICATION_NAME)
                 .build();
     }

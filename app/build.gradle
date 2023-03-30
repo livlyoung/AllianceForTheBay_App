@@ -30,14 +30,21 @@ android {
 
 dependencies {
 
+
+    // Google APIs and OAuth2 support
+    implementation 'com.google.apis:google-api-services-sheets:v4-rev581-1.25.0'
+    implementation 'com.google.api-client:google-api-client-android:1.31.5'
+    implementation 'com.google.auth:google-auth-library-oauth2-http:0.20.0'
+    implementation 'com.google.oauth-client:google-oauth-client-jetty:0.20.0'
+    //
+
+    // JSON parsing support
+    implementation 'com.google.http-client:google-http-client-jackson2:1.41.0'
+    //
+
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'com.google.apis:google-api-services-sheets:v4-rev581-1.25.0'
-    implementation 'com.google.android.gms:play-services-auth:20.1.0'
-    implementation 'com.google.api-client:google-api-client:1.31.5'
-    implementation 'com.google.oauth-client:google-oauth-client-jetty:1.31.5'
-    implementation 'com.google.api-client:google-api-client-android:1.31.5'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
