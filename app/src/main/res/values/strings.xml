@@ -5,7 +5,7 @@
     <string-array name="questions">
         <item>Your name</item>
         <item>Date of Check-up</item>
-        <item>Site name/location</item>
+        <item>Site name or location</item>
         <item>How much time did you spend at your site for this months check-in?</item>
         <item>Did the site look maintained?</item>
         <item>Any invasive species? If so, indicate which ones:</item>
@@ -14,7 +14,7 @@
         <item>Signs of livestock in the planting area?</item>
         <item>Signs of animal browsing?</item>
         <item>Any damage that needs to be further addressed?</item>
-        <item>Any other comments/concerns?</item>
+        <item>Any other comments or concerns?</item>
         <item>Any photos to share? Please send them riparianrangers@allianceforthebay.org</item>
     </string-array>
 
