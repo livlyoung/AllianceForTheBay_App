@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText mEmailField;
@@ -32,6 +33,12 @@ public class LoginActivity extends AppCompatActivity {
 
         mEmailField = findViewById(R.id.editTextEmail);
         mPasswordField = findViewById(R.id.editTextPassword);
+
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        if (user != null) {
+            mEmailField.setText(user.getEmail());
+        }
 
         Button loginButton = findViewById(R.id.buttonLogin);
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(LoginActivity.this, "Account created.", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(LoginActivity.this, Main.class);
+                            Intent intent = new Intent(getApplicationContext(), Main.class);
                             startActivity(intent);
                             finish();
                         } else {

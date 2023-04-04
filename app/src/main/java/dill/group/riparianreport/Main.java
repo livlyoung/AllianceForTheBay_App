@@ -51,10 +51,10 @@ public class Main extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         FirebaseUser user = mAuth.getCurrentUser();
-        //if (user == null) {
+        if (user == null) {
             Intent i = new Intent(this,LoginActivity.class);
             startActivity(i);
-        //}
+        }
     }
 
     public void handleReportButton() { // Makes a new "Report" (Form)
