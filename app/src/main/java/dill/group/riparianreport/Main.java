@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -25,36 +26,30 @@ public class Main extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mAuth = FirebaseAuth.getInstance();
+        //FirebaseApp.initializeApp(this);
+        //mAuth = FirebaseAuth.getInstance();
 
         Button reportButton = findViewById(R.id.report_button);
         reportButton.setOnClickListener(view -> handleReportButton());
 
-        Button login_button = findViewById(R.id.goto_login);
 
-        TextView tv = findViewById(R.id.disp_username);
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null) {
-            tv.setText(user.getEmail());
-        }
-        login_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(),LoginActivity.class);
-                startActivity(i);
-            }
-        });
+
+        //FirebaseUser user = mAuth.getCurrentUser();
+
+
 
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        /*
         FirebaseUser user = mAuth.getCurrentUser();
         if (user == null) {
             Intent i = new Intent(this,LoginActivity.class);
             startActivity(i);
         }
+        */
     }
 
     public void handleReportButton() { // Makes a new "Report" (Form)
