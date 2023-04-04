@@ -1,5 +1,6 @@
 package dill.group.riparianreport;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,8 +17,12 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -192,12 +197,34 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
         }
     }
 
+    /*
+    addToDatabase() has no parameters. It asynchronously accesses an instance of the database
+    to add information to it. For each reportModel in the ArrayList, the question is added as
+    a column attribute and the answer is added as an entry.
+     */
     private void addToDatabase(){
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        FirebaseApp.initializeApp(getApplicationContext());
+        FirebaseDatabase data = FirebaseDatabase.getInstance();
+        mDatabase = data.getReference("users/" + LoginActivity.Globalemail);
         for(int i = 0; i < reportModels.size(); i++){
-            String attribute = reportModels.get(i).getQuestion();
+            final String attribute = reportModels.get(i).getQuestion();
             String answer = reportModels.get(i).getAnswer();
-            mDatabase.child("users").child(attribute).setValue(answer);
+            mDatabase.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(attribute.contains(".")){
+                        mDatabase.child(attribute.replace(".", ",")).setValue(answer);
+                    }
+                    else{
+                        mDatabase.child(attribute).setValue(answer);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
         }
     }
 }

@@ -24,6 +24,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
+    public static String Globalemail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(LoginActivity.this, "Authentication succeeded.", Toast.LENGTH_SHORT).show();
+                            Globalemail = email;
                             Intent intent = new Intent(LoginActivity.this, Main.class);
                             startActivity(intent);
                             finish();
@@ -92,6 +95,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(LoginActivity.this, "Account created.", Toast.LENGTH_SHORT).show();
+                            Globalemail = email;
                             Intent intent = new Intent(getApplicationContext(), Main.class);
                             startActivity(intent);
                             finish();
