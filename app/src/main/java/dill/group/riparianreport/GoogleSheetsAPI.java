@@ -33,12 +33,13 @@ public class GoogleSheetsAPI {
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
 
-    private static final String SERVICE_ACCOUNT_ID = "Your Service Account ID";
-    private static final String P12_FILE_PATH = "path/to/your/key.p12";
+    private static final String SERVICE_ACCOUNT_ID = "Your Service Account ID"; //need to add our account id
+    private static final String P12_FILE_PATH = "path/to/your/key.p12"; //need to add our key path
 
     private Sheets sheetsService;
 
     public GoogleSheetsAPI() throws GeneralSecurityException, IOException {
+        //need to add path to the assets folder with our credentials below
         GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(new File("path/to/your/credentials.json")))
                 .createScoped(Arrays.asList(SheetsScopes.SPREADSHEETS));
         sheetsService = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, new HttpCredentialsAdapter(credentials))
