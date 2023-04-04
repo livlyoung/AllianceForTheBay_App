@@ -16,6 +16,9 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Timer;
@@ -44,6 +47,8 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
     ReportRecyclerViewAdapter adapter;
 
     boolean free; // Limits user to answering one question at a time
+
+    private DatabaseReference mDatabase; //Used to reference an instance of the database
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,10 +184,20 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
             System.out.println(String.valueOf(reportModels.get(i).isAnswered()) + " " + String.valueOf(i) + " " + reportModels.get(i).getAnswer());
         }
         if (formIsComplete()) {
+            addToDatabase();
             Intent i = new Intent(this, Main.class);
             startActivity(i);
         } else {
             Toast.makeText(this, "please answer all fields", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void addToDatabase(){
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        for(int i = 0; i < reportModels.size(); i++){
+            String attribute = reportModels.get(i).getQuestion();
+            String answer = reportModels.get(i).getAnswer();
+            mDatabase.child("users").child(attribute).setValue(answer);
         }
     }
 }
