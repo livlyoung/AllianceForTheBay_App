@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".Main">
 
+    <TextView
+        android:id="@+id/disp_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="This is fluff text"
+        android:textSize="24sp"
+        />
+
     <Button
         android:id="@+id/report_button"
         android:layout_width="wrap_content"
@@ -13,8 +25,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/goto_login"
         android:text="Report"
+        />
+
+    <Button
+        android:id="@+id/goto_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/report_button"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Login"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
