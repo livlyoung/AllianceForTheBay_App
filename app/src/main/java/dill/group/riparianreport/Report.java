@@ -9,6 +9,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import java.util.ArrayList;
@@ -47,6 +49,14 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
         ReportRecyclerViewAdapter adapter = new ReportRecyclerViewAdapter(this, reportModels, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        Button submit_btn = (Button) findViewById(R.id.submit_btn);
+        submit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                
+            }
+        });
     }
 
     private void updateRecyclerView() {
