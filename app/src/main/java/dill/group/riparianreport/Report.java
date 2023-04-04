@@ -5,15 +5,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Report extends AppCompatActivity implements RecyclerViewInterface {
 
@@ -31,10 +40,15 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
             {"MULTIPLE_CHOICE_OTHER", "Deer", "Voles", "None"},
             {"MULTIPLE_CHOICE_OTHER", "No", "Yes, missing stakes", "Yes, missing tubes", "Yes, fencing problems"},
             {"TEXT"},
-            {"PHOTO"},
+            {"MULTIPLE_CHOICE", "Understood"},
     };
 
     ArrayList<ReportModel> reportModels = new ArrayList<>();
+    ReportRecyclerViewAdapter adapter;
+
+    boolean free; // Limits user to answering one question at a time
+
+    private DatabaseReference mDatabase; //Used to reference an instance of the database
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,23 +60,13 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
 
         setUpReportModels();
 
-        ReportRecyclerViewAdapter adapter = new ReportRecyclerViewAdapter(this, reportModels, this);
+        adapter = new ReportRecyclerViewAdapter(this, reportModels, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        free = true;
 
-        Button submit_btn = (Button) findViewById(R.id.submit_btn);
-        submit_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                
-            }
-        });
-    }
-
-    private void updateRecyclerView() {
-        RecyclerView recyclerView = findViewById(R.id.recyclerview);
-        ReportRecyclerViewAdapter adapter = new ReportRecyclerViewAdapter(this, reportModels, this);
-        recyclerView.setAdapter(adapter);
+        Button submitButton = findViewById(R.id.submit_btn);
+        submitButton.setOnClickListener(view -> submitReport());
     }
 
 
@@ -80,15 +84,17 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
 
     @Override
     public void onItemClick(int pos) {
-
-        String type = reportModels.get(pos).getType();
-        if (type.equals("TEXT")) {
-            makeTextDialog(pos, reportModels.get(pos).getQuestion());
-        } else if (type.equals("MULTIPLE_CHOICE") || type.equals("MULTIPLE_CHOICE_OTHER")) {
-            makeMultipleChoiceDialog(pos, type);
-            Log.d("Pressed", "MULTIPLE_OTHER");
+        if (free) {
+            String type = reportModels.get(pos).getType();
+            if (type.equals("TEXT")) {
+                makeTextDialog(pos);
+            } else if (type.equals("MULTIPLE_CHOICE") || type.equals("MULTIPLE_CHOICE_OTHER")) {
+                makeMultipleChoiceDialog(pos, type);
+                Log.d("Pressed", "MULTIPLE_OTHER");
+            } else if (type.equals("DATE")) {
+                makeDateDialog(pos);
+            }
         }
-
     }
 
     public void makeMultipleChoiceDialog(int pos, String type) {
@@ -100,7 +106,8 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
                 // of the selected item
                 String answer = reportModels.get(pos).getChoices()[which];
                 reportModels.get(pos).setAnswer(answer);
-                updateRecyclerView();
+                adapter.notifyItemChanged(pos);
+                //free = true;
             }
         });
 
@@ -108,7 +115,7 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
             alert.setNegativeButton("OTHER", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    makeTextDialog(pos, reportModels.get(pos).getQuestion());
+                    makeTextDialog(pos);
                     dialogInterface.cancel();
                 }
             });
@@ -118,27 +125,79 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
     }
 
 
-    public void makeTextDialog(int pos, String question) {
+    public void makeTextDialog(int pos) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         final EditText et = new EditText(this);
-        alert.setTitle(question);
+        alert.setTitle(reportModels.get(pos).getQuestion());
         alert.setView(et);
         alert.setPositiveButton("ENTER", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String answer = et.getText().toString();
-                reportModels.get(pos).setAnswer(answer);
-                updateRecyclerView();
+                if (answer.length() > 0) {
+                    reportModels.get(pos).setAnswer(answer);
+                    adapter.notifyItemChanged(pos);
+                }
                 dialog.cancel();
+                //free = true;
             }
         });
         alert.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 dialog.cancel();
+                //free = true;
             }
         });
         alert.show();
     }
 
+    public void makeDateDialog(int pos) {
+        Calendar c = Calendar.getInstance();
+        int mYear = c.get(Calendar.YEAR);
+        int mMonth = c.get(Calendar.MONTH);
+        int mDay = c.get(Calendar.DAY_OF_MONTH);
+        DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                String answer = String.valueOf(i1) + "/" + String.valueOf(i2) + "/" + String.valueOf(i);
+                reportModels.get(pos).setAnswer(answer);
+                Log.d("Date", String.valueOf(pos));
+                adapter.notifyItemChanged(pos);
+                free = true;
+            }
+        }, mYear, mMonth, mDay);
 
+        dialog.show();
+    }
 
+    public boolean formIsComplete() {
+        boolean complete = true;
+        for(int i = 0; i < reportModels.size(); i++) {
+            if (!(reportModels.get(i).isAnswered())) {
+                complete = false;
+            }
+        }
+        return complete;
+    }
+
+    public void submitReport() {
+        for(int i = 0; i < reportModels.size(); i++) {
+            System.out.println(String.valueOf(reportModels.get(i).isAnswered()) + " " + String.valueOf(i) + " " + reportModels.get(i).getAnswer());
+        }
+        if (formIsComplete()) {
+            addToDatabase();
+            Intent i = new Intent(this, Main.class);
+            startActivity(i);
+        } else {
+            Toast.makeText(this, "please answer all fields", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void addToDatabase(){
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        for(int i = 0; i < reportModels.size(); i++){
+            String attribute = reportModels.get(i).getQuestion();
+            String answer = reportModels.get(i).getAnswer();
+            mDatabase.child("users").child(attribute).setValue(answer);
+        }
+    }
 }
