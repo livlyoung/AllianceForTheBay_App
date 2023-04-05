@@ -15,10 +15,14 @@
         android:theme="@style/Theme.RiparianReport"
         tools:targetApi="31">
         <activity
+<<<<<<< HEAD
             android:name=".HistoryInner"
             android:exported="false" />
         <activity
             android:name=".History"
+=======
+            android:name=".CreateAccount"
+>>>>>>> da52abcb808965ecf815b65d3f095a597b7ca2f7
             android:exported="false" />
         <activity
             android:name=".LoginActivity"

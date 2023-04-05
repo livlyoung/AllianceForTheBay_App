@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,8 +27,8 @@ public class Main extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //FirebaseApp.initializeApp(this);
-        //mAuth = FirebaseAuth.getInstance();
+        FirebaseApp.initializeApp(this);
+        mAuth = FirebaseAuth.getInstance();
 
         Button reportButton = findViewById(R.id.report_button);
         reportButton.setOnClickListener(view -> handleReportButton());
@@ -37,22 +38,22 @@ public class Main extends AppCompatActivity {
 
 
 
-        //FirebaseUser user = mAuth.getCurrentUser();
-
-
 
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        /*
+
         FirebaseUser user = mAuth.getCurrentUser();
         if (user == null) {
             Intent i = new Intent(this,LoginActivity.class);
             startActivity(i);
         }
-        */
+        else{
+            Log.d("User:", user.getDisplayName());
+        }
+
     }
 
     public void handleReportButton() { // Makes a new "Report" (Form)
