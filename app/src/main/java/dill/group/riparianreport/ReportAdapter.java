@@ -1,9 +1,6 @@
 package dill.group.riparianreport;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,21 +11,17 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.common.io.Resources;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 //To edit the items shown on the RecyclerView go to the recyclerview_row layout file
-class ReportRecyclerViewAdapter extends RecyclerView.Adapter<ReportRecyclerViewAdapter.MyViewHolder> { // Custom RecyclerView (ListView basically) that shows question and answer
+class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.MyViewHolder> { // Custom RecyclerView (ListView basically) that shows question and answer
     Context context;
     ArrayList<ReportModel> reportModels;
 
     private final RecyclerViewInterface recyclerViewInterface;
 
 
-    public ReportRecyclerViewAdapter(Context context, ArrayList<ReportModel> reportModels, RecyclerViewInterface recyclerViewInterface) {
+    public ReportAdapter(Context context, ArrayList<ReportModel> reportModels, RecyclerViewInterface recyclerViewInterface) {
         this.context = context;
         this.reportModels = reportModels;
         this.recyclerViewInterface = recyclerViewInterface;
@@ -38,15 +31,15 @@ class ReportRecyclerViewAdapter extends RecyclerView.Adapter<ReportRecyclerViewA
 
     @NonNull
     @Override
-    public ReportRecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ReportAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.recyclerview_row, parent, false);
-        return new ReportRecyclerViewAdapter.MyViewHolder(view, recyclerViewInterface);
+        return new ReportAdapter.MyViewHolder(view, recyclerViewInterface);
     }
 
 
     @Override
-    public void onBindViewHolder(@NonNull ReportRecyclerViewAdapter.MyViewHolder holder, int position) { //Important function that shows what is displayed
+    public void onBindViewHolder(@NonNull ReportAdapter.MyViewHolder holder, int position) { //Important function that shows what is displayed
         holder.question.setText(reportModels.get(position).getQuestion());
         if (reportModels.get(position).isAnswered()) {
             Log.d("Bind", String.valueOf(position));

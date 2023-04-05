@@ -32,6 +32,9 @@ public class Main extends AppCompatActivity {
         Button reportButton = findViewById(R.id.report_button);
         reportButton.setOnClickListener(view -> handleReportButton());
 
+        Button historyButton = findViewById(R.id.view_previous_forms_button);
+        historyButton.setOnClickListener(view -> handleHistoryButton());
+
 
 
         //FirebaseUser user = mAuth.getCurrentUser();
@@ -54,6 +57,11 @@ public class Main extends AppCompatActivity {
 
     public void handleReportButton() { // Makes a new "Report" (Form)
         Intent i = new Intent(this, Report.class);
+        startActivity(i);
+    }
+
+    public void handleHistoryButton() { // Makes a new "Report" (Form)
+        Intent i = new Intent(this, History.class);
         startActivity(i);
     }
 
