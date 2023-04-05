@@ -58,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                 Intent i = new Intent(getApplicationContext(), CreateAccount.class);
                 startActivity(i);
                 finish();
+                LoginActivity.Globalemail = CreateAccount.Globalemail;
 
             }
         });
@@ -75,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(LoginActivity.this, "Authentication succeeded.", Toast.LENGTH_SHORT).show();
-                            Globalemail = email;
+                            Globalemail = email.replace(".", ",");
                             Intent intent = new Intent(LoginActivity.this, Main.class);
                             startActivity(intent);
                             finish();

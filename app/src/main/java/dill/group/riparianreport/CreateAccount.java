@@ -80,7 +80,7 @@ public class CreateAccount extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), "Account created successfully", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(CreateAccount.this, Main.class);
-                            Globalemail = email;
+                            Globalemail = email.replace(".", ",");
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
                             finish();
