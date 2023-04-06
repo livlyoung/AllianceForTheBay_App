@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Main extends AppCompatActivity {
 
@@ -58,8 +59,15 @@ public class Main extends AppCompatActivity {
 
         FirebaseUser user = mAuth.getCurrentUser();
         if (user == null) {
+            ExecutorService executor = Executors.newSingleThreadExecutor();
             Intent i = new Intent(this,LoginActivity.class);
-            startActivity(i);
+            executor.submit(new Runnable() {
+                @Override
+                public void run() {
+                    startActivity(i);
+                }
+            });
+
         }
         else{
             setContentView(R.layout.activity_main);
