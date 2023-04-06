@@ -16,6 +16,8 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.concurrent.ExecutorService;
+
 public class Main extends AppCompatActivity {
 
     // Test to see if I can add to the code (Luke)
@@ -29,6 +31,9 @@ public class Main extends AppCompatActivity {
 
         FirebaseApp.initializeApp(this);
         mAuth = FirebaseAuth.getInstance();
+
+
+
 
         Button reportButton = findViewById(R.id.report_button);
         reportButton.setOnClickListener(view -> handleReportButton());
@@ -51,8 +56,17 @@ public class Main extends AppCompatActivity {
             startActivity(i);
         }
         else{
-            Log.d("User:", user.getDisplayName());
+            setContentView(R.layout.activity_main);
+            FirebaseApp.initializeApp(this);
+            mAuth = FirebaseAuth.getInstance();
         }
+
+
+        Button reportButton = findViewById(R.id.report_button);
+        reportButton.setOnClickListener(view -> handleReportButton());
+
+
+
 
     }
 
