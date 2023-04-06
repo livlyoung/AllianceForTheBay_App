@@ -203,6 +203,10 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
         FirebaseApp.initializeApp(getApplicationContext());
         FirebaseDatabase data = FirebaseDatabase.getInstance();
         mDatabase = data.getReference("users/" + LoginActivity.Globalemail);
+
+        //Generates a random key for each form submission for each user
+        String questionSetId = mDatabase.child("questionSet").push().getKey();
+
         for(int i = 0; i < reportModels.size(); i++){
             final String attribute = reportModels.get(i).getQuestion();
             String answer = reportModels.get(i).getAnswer();
@@ -210,16 +214,16 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if(attribute.contains(".")){
-                        mDatabase.child(attribute.replace(".", ",")).setValue(answer);
+                        mDatabase.child(questionSetId).child(attribute.replace(".", ",")).setValue(answer);
                     }
                     else{
-                        mDatabase.child(attribute).setValue(answer);
+                        mDatabase.child(questionSetId).child(attribute).setValue(answer);
                     }
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-
+                    Toast.makeText(getApplicationContext(), "Error: Answers not saved", Toast.LENGTH_LONG).show();
                 }
             });
         }
