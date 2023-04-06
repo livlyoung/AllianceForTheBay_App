@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseUser user = mAuth.getCurrentUser();
 
         if (user != null) {
-            mEmailField.setText(user.getEmail());
+            mEmailField.setText(user.getEmail().replace(".", ","));
         }
 
         Button loginButton = findViewById(R.id.buttonLogin);
@@ -95,29 +95,6 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-//    private void createAccount(String email, String password) {
-//        if (!validateForm()) {
-//            return;
-//        }
-//
-//        mAuth.createUserWithEmailAndPassword(email, password)
-//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        if (task.isSuccessful()) {
-//                            // Sign in success, update UI with the signed-in user's information
-//                            Toast.makeText(LoginActivity.this, "Account created.", Toast.LENGTH_SHORT).show();
-//                            Globalemail = email;
-//                            Intent intent = new Intent(getApplicationContext(), Main.class);
-//                            startActivity(intent);
-//                            finish();
-//                        } else {
-//                            // If sign in fails, display a message to the user.
-//                            Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                });
-//    }
 
     private boolean validateForm() {
         boolean valid = true;

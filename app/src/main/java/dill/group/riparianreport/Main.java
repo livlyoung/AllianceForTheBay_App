@@ -38,6 +38,8 @@ public class Main extends AppCompatActivity {
 
         FirebaseApp.initializeApp(this);
         mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        LoginActivity.Globalemail = user.getEmail().replace(".", ",");
 
 
 
@@ -48,41 +50,9 @@ public class Main extends AppCompatActivity {
         Button historyButton = findViewById(R.id.view_previous_forms_button);
         historyButton.setOnClickListener(view -> handleHistoryButton());
 
-
-
-
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
 
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user == null) {
-            ExecutorService executor = Executors.newSingleThreadExecutor();
-            Intent i = new Intent(this,LoginActivity.class);
-            executor.submit(new Runnable() {
-                @Override
-                public void run() {
-                    startActivity(i);
-                }
-            });
-
-        }
-        else{
-            setContentView(R.layout.activity_main);
-            FirebaseApp.initializeApp(this);
-            mAuth = FirebaseAuth.getInstance();
-        }
-
-
-        Button reportButton = findViewById(R.id.report_button);
-        reportButton.setOnClickListener(view -> handleReportButton());
-
-
-
-
-    }
 
     public void handleReportButton() { // Makes a new "Report" (Form)
         Intent i = new Intent(this, Report.class);

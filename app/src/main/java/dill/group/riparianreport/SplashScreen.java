@@ -13,6 +13,9 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class SplashScreen extends AppCompatActivity {
 
     SharedPreferences prefs = null;
@@ -49,7 +52,14 @@ public class SplashScreen extends AppCompatActivity {
             public void run() {
                 FirebaseUser user = mAuth.getCurrentUser();
                 if (user == null) {
-                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                    ExecutorService executor = Executors.newSingleThreadExecutor();
+                    Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                    executor.submit(new Runnable() {
+                        @Override
+                        public void run() {
+                            startActivity(i);
+                        }
+                    });
                 }
                 else {
                     //Toast.makeText(getApplicationContext(),user.getEmail(),Toast.LENGTH_SHORT).show();
