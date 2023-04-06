@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "873314762207",
+    "firebase_url": "https://allianceforthebayapp-default-rtdb.firebaseio.com",
+    "project_id": "allianceforthebayapp",
+    "storage_bucket": "allianceforthebayapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:873314762207:android:19b31bef6d8c733cc6d86a",
+        "android_client_info": {
+          "package_name": "dill.group.riparianreport"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "873314762207-8fu875f2j778vp3n1n2u0hssdd8drabv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgYild05rNcXfHTY4-uOXFArfEYNQef9k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "873314762207-8fu875f2j778vp3n1n2u0hssdd8drabv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
