@@ -50,6 +50,9 @@ public class Main extends AppCompatActivity {
         Button historyButton = findViewById(R.id.view_previous_forms_button);
         historyButton.setOnClickListener(view -> handleHistoryButton());
 
+        Button mapButton = findViewById(R.id.view_map_button);
+        mapButton.setOnClickListener(view -> handleMapButton());
+
     }
 
 
@@ -61,6 +64,11 @@ public class Main extends AppCompatActivity {
 
     public void handleHistoryButton() { // Makes a new "Report" (Form)
         Intent i = new Intent(this, History.class);
+        startActivity(i);
+    }
+
+    public void handleMapButton() {
+        Intent i = new Intent(this, Map.class);
         startActivity(i);
     }
 

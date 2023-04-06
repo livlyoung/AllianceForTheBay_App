@@ -28,4 +28,14 @@
         android:text="View previous reports"
         />
 
+    <Button
+        android:id="@+id/view_map_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/view_previous_forms_button"
+        android:text="Go to map"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
