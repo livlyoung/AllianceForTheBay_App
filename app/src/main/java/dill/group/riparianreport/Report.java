@@ -160,7 +160,7 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
         DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                String answer = String.valueOf(i1) + "/" + String.valueOf(i2) + "/" + String.valueOf(i);
+                String answer = String.valueOf(i1 + 1) + "/" + String.valueOf(i2) + "/" + String.valueOf(i);
                 reportModels.get(pos).setAnswer(answer);
                 Log.d("Date", String.valueOf(pos));
                 adapter.notifyItemChanged(pos);
