@@ -5,18 +5,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/splash_screen"
-    android:background="#387BBA"
+    android:background="@color/white"
     tools:context=".SplashScreen">
-
+    
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/halfway_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.50"/>
+    
     <ImageView
-        android:id="@+id/splash_logo"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/bay_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/halfway_guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/alliancelogo"
-        android:contentDescription="Logo!" />
+        android:src="@drawable/bay_logo"
+        android:contentDescription="bay_logo1!"
+        android:paddingRight="20dp"
+        android:paddingLeft="10dp"
+        android:layout_marginTop="50dp"
+
+        />
+
+    <ImageView
+        android:id="@+id/splash_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/halfway_guideline"
+        android:src="@drawable/ranger_logo"
+        android:contentDescription="ranger_logo1!"
+        android:padding="30dp"
+        android:layout_marginBottom="80dp"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
