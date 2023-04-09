@@ -39,6 +39,14 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".History"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".HistoryInner"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".Main"
             android:exported="true"
             android:screenOrientation="portrait">
