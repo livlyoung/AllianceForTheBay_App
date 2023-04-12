@@ -3,11 +3,14 @@ package dill.group.riparianreport;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class ReportModel { // Class that holds information regarding each question on the Report
 
     String question;
     String[] choices;
+
+    String choicesString;
     String type;
 
     String answer;
@@ -17,21 +20,30 @@ public class ReportModel { // Class that holds information regarding each questi
     boolean answered;
 
 
-    public ReportModel (String type, String question, String[] choices) {
+    public ReportModel (String type, String question, String sChoices) {
         this.question = question;
         this.type = type;
-
+        this.choicesString = sChoices;
         answered = false;
+        this.choices = sChoices.split("_");
+    }
 
-        if (choices.length > 1) {
-            this.choices = Arrays.copyOfRange(choices, 1, choices.length);
-        }  else {
-            this.choices = choices;
-        }
+    public ReportModel (String type, String question) {
+        this.question = question;
+        this.type = type;
+        answered = false;
+    }
+
+    public ReportModel() {
+
     }
 
 
+
+
     public String[] getChoices() {return choices;}
+
+    public String getChoicesString() {return choicesString;}
     public String getQuestion() {return question;}
 
     public String getType() {return type;}

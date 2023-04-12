@@ -25,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class Report extends AppCompatActivity implements RecyclerViewInterface {
 
@@ -34,13 +35,13 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
             {"DATE"},
             {"TEXT"},
             {"TEXT"},
-            {"MULTIPLE_CHOICE", "Yes, mowed and herbicide rings around shelters", "Somewhat, it was mowed", "Somewhat, there were herbicide rings", "No, it did not look maintained"},
+            {"MULTIPLE_CHOICE", "Yes, mowed and herbicide rings around shelters_Somewhat, it was mowed_Somewhat, there were herbicide rings_No, it did not look maintained"},
             {"TEXT"},
             {"TEXT"},
             {"TEXT"},
-            {"MULTIPLE_CHOICE", "Manure", "Livestock hoof prints", "Livestock actively in the buffer", "None"},
-            {"MULTIPLE_CHOICE_OTHER", "Deer", "Voles", "None"},
-            {"MULTIPLE_CHOICE_OTHER", "No", "Yes, missing stakes", "Yes, missing tubes", "Yes, fencing problems"},
+            {"MULTIPLE_CHOICE", "Manure_Livestock hoof prints_Livestock actively in the buffer_None"},
+            {"MULTIPLE_CHOICE_OTHER", "Deer_Voles_None"},
+            {"MULTIPLE_CHOICE_OTHER", "No_Yes, missing stakes_Yes, missing tubes_Yes, fencing problems"},
             {"TEXT"},
             {"MULTIPLE_CHOICE", "Understood"},
     };
@@ -58,14 +59,17 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
         setContentView(R.layout.activity_report);
 
 
+
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
 
-        setUpReportModels();
+        reportModels = setUpReportModels();
 
         adapter = new ReportAdapter(this, reportModels, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         free = true;
+
+
 
         Button submitButton = findViewById(R.id.submit_btn);
         submitButton.setOnClickListener(view -> submitReport());
@@ -73,14 +77,50 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
 
 
 
-    private void setUpReportModels() {
+    public ArrayList<ReportModel> setUpReportModels() {
+        ArrayList<ReportModel> array = new ArrayList<>();
         String[] reportQuestions = getResources().getStringArray(R.array.questions);
-
         for(int i = 0; i < reportQuestions.length; i++) { // The length of reportQuestions is the number of guestions on the form
             String type = choices[i][0];
-            reportModels.add(new ReportModel(type, reportQuestions[i], choices[i]));
+            if (type.equals("MULTIPLE_CHOICE") || type.equals("MULTIPLE_CHOICE_OTHER")) {
+                array.add(new ReportModel(type, reportQuestions[i], choices[i][1]));
+            } else {
+                array.add(new ReportModel(type, reportQuestions[i]));
+            }
         }
+        return array;
+    }
 
+    public interface DataStatus {
+        void DataIsLoaded(ArrayList<ReportModel> array);
+    }
+
+    public void setUpReportModelsFromDatabase() {
+        ArrayList<ReportModel> array = new ArrayList<>();
+        FirebaseApp.initializeApp(getApplicationContext());
+        FirebaseDatabase data = FirebaseDatabase.getInstance();
+        mDatabase = data.getReference("Questions");
+
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int count = 0;
+                for(DataSnapshot keyNode : snapshot.getChildren()) {
+                    count += 1;
+                }
+                ArrayList<ReportModel> array = new ArrayList<>(count);
+                for(DataSnapshot keyNode : snapshot.getChildren()) {
+                    int idx = Integer.valueOf(keyNode.getKey()) - 1;
+                    ReportModel reportModel = keyNode.getValue(ReportModel.class);
+                    reportModels.add(idx, reportModel);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 
