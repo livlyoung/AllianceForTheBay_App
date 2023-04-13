@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -16,6 +17,11 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+
+import com.google.api.client.util.Value;
+import com.google.api.services.sheets.v4.model.AppendValuesResponse;
+import com.google.api.services.sheets.v4.model.ValueRange;
+import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,8 +29,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.List;
 
 public class Report extends AppCompatActivity implements RecyclerViewInterface {
@@ -72,7 +85,15 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
 
 
         Button submitButton = findViewById(R.id.submit_btn);
-        submitButton.setOnClickListener(view -> submitReport());
+        submitButton.setOnClickListener(view -> {
+            try {
+                submitReport();
+            } catch (GeneralSecurityException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
 
@@ -221,12 +242,41 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
         return complete;
     }
 
-    public void submitReport() {
+    public void submitReport() throws GeneralSecurityException, IOException {
+
         for(int i = 0; i < reportModels.size(); i++) {
             System.out.println(String.valueOf(reportModels.get(i).isAnswered()) + " " + String.valueOf(i) + " " + reportModels.get(i).getAnswer());
         }
         if (formIsComplete()) {
+            ExecutorService executorService = Executors.newSingleThreadExecutor();
+            executorService.submit(new Runnable() {
+                @Override
+                public void run() {
+                    String spreadsheetID = "1viMvjqx8xCIUtwZ1Isy1hlIkWYH7fna0o3ea1Rr8JWo";
+                    //String email = "googlesheetsapi@allianceforthebayapp.iam.gserviceaccount.com";
+                    AssetManager assetManager = getApplicationContext().getAssets();
+                    InputStream inputStream;
+                    try {
+                        inputStream = assetManager.open("allianceforthebayapp-7ef0da005605.json");
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    GoogleCredentials credentials;
+                    try {
+                        credentials  = GoogleCredentials.fromStream(inputStream);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    try {
+                        GoogleSheetsAPI.appendReports(spreadsheetID, reportModels, credentials);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
             addToDatabase();
+
             Intent i = new Intent(this, Main.class);
             startActivity(i);
         } else {

@@ -1,118 +1,118 @@
 package dill.group.riparianreport;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+import android.util.Log;
 
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.auth.oauth2.GoogleCredentials;
+
+import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.Value;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.SheetsScopes;
-import com.google.api.services.sheets.v4.model.AppendValuesResponse;
-import com.google.api.services.sheets.v4.model.ValueRange;
+import com.google.api.services.sheets.v4.model.*;
 import com.google.auth.http.HttpCredentialsAdapter;
-import com.google.common.reflect.TypeToken;
-import com.google.gson.Gson;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.services.sheets.v4.model.BatchUpdateValuesRequest;
+
+
 
 public class GoogleSheetsAPI {
-    private static final String APPLICATION_NAME = "Your Application Name";
+    private static final String APPLICATION_NAME = "Google Sheets API Java Quickstart";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-    private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
 
-    private static final String SERVICE_ACCOUNT_ID = "Your Service Account ID"; //need to add our account id
-    private static final String P12_FILE_PATH = "path/to/your/key.p12"; //need to add our key path
+    private static NetHttpTransport httpTransport;
 
-    private Sheets sheetsService;
+    static {
+         httpTransport = new NetHttpTransport();
 
-    public GoogleSheetsAPI() throws GeneralSecurityException, IOException {
-        //need to add path to the assets folder with our credentials below
-        GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(new File("path/to/your/credentials.json")))
-                .createScoped(Arrays.asList(SheetsScopes.SPREADSHEETS));
-        sheetsService = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, new HttpCredentialsAdapter(credentials))
-                .setApplicationName(APPLICATION_NAME)
-                .build();
     }
 
-    public void appendToSheet(String spreadsheetId, String range, List<List<Object>> values) throws IOException {
-        ValueRange body = new ValueRange()
-                .setValues(values);
-        AppendValuesResponse result = sheetsService.spreadsheets().values()
-                .append(spreadsheetId, range, body)
-                .setValueInputOption("USER_ENTERED")
-                .setInsertDataOption("INSERT_ROWS")
-                .setIncludeValuesInResponse(true)
-                .execute();
+    public static Sheets getSheetsService(GoogleCredentials credentials) throws IOException {
+        HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(credentials);
+        return new Sheets.Builder(httpTransport, JSON_FACTORY, requestInitializer)
+                .setApplicationName(APPLICATION_NAME).build();
     }
 
-    /*
-    This function takes three parameters:
-    1. jsonUrl: The URL of the Firebase Realtime Database endpoint containing the JSON data.
-    2. sheetId: The ID of the Google Sheets spreadsheet to append the data to.
-    3. range: The cell range in the spreadsheet to append the data to (e.g. "Sheet1!A1").
-     */
-    public void updateSheetWithJson(String jsonUrl, String sheetId, String range) throws IOException, GeneralSecurityException {
-        // Read JSON data from the Firebase Realtime Database
-        URL url = new URL(jsonUrl);
-        InputStream inputStream = url.openStream();
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-        StringBuilder stringBuilder = new StringBuilder();
-        String line;
-        while ((line = bufferedReader.readLine()) != null) {
-            stringBuilder.append(line);
+    public static void writeData(String spreadsheetId, String value, GoogleCredentials credentials) throws IOException {
+        Sheets sheetsService = getSheetsService(credentials);
+        if (sheetsService == null) {
+            Log.d("SheetsService", "SheetsService is null!");
+            return;
         }
-        String jsonData = stringBuilder.toString();
-
-        // Parse the JSON data into a List of Maps
-        Gson gson = new Gson();
-        List<Map<String, Object>> data = gson.fromJson(jsonData, new TypeToken<List<Map<String, Object>>>(){}.getType());
-
-        // Authenticate with Google Sheets API using a service account
-        GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream("path/to/credentials.json"))
-                .createScoped(Collections.singleton(SheetsScopes.SPREADSHEETS));
-        HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-        JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-        Sheets sheetsService = new Sheets.Builder(httpTransport, jsonFactory, new HttpCredentialsAdapter(credentials))
-                .setApplicationName("My App Name")
-                .build();
-
-        // Append the data to the specified sheet and range
-        List<List<Object>> values = new ArrayList<>();
-        for (Map<String, Object> row : data) {
-            List<Object> rowValues = new ArrayList<>();
-            for (String key : row.keySet()) {
-                rowValues.add(row.get(key));
-            }
-            values.add(rowValues);
-        }
+        List<List<Object>> values = Arrays.asList(Arrays.asList(value));
+        String range = "Sheet1!A1:XFD1048576";
         ValueRange body = new ValueRange().setValues(values);
-        sheetsService.spreadsheets().values()
-                .append(sheetId, range, body)
-                .setValueInputOption("RAW")
-                .execute();
+        UpdateValuesResponse result = sheetsService.spreadsheets().values().update(spreadsheetId, range, body)
+                .setValueInputOption("RAW").execute();
+        Log.d("%d cells updated.", result.getUpdatedCells().toString());
     }
 
 
-    public void appendDataFromDictionary(String spreadsheetId, String range, Map<String, Object> data) throws IOException {
-        List<List<Object>> values = new ArrayList<>();
-        List<Object> row = new ArrayList<>();
-        for (Map.Entry<String, Object> entry : data.entrySet()) {
-            row.add(entry.getValue());
+    /**
+     * Appends a list of ReportModel objects to a specified Google Sheets spreadsheet.
+     * The first row of the sheet should contain the questions as column headers.
+     * Each ReportModel object contains answers to these questions that should be
+     * written in the next available row.
+     *
+     * @param spreadsheetId the ID of the Google Sheets spreadsheet to write to
+     * @param reports       the list of ReportModel objects to write
+     * @param credentials   the GoogleCredentials object used to authenticate the Sheets API
+     * @throws IOException if an error occurs while writing to the sheet
+     */
+    public static void appendReports(String spreadsheetId, List<ReportModel> reports, GoogleCredentials credentials) throws IOException {
+        Sheets sheetsService = getSheetsService(credentials);
+        if (sheetsService == null) {
+            Log.d("SheetsService", "SheetsService is null!");
+            return;
         }
-        values.add(row);
-        appendToSheet(spreadsheetId, range, values);
+
+        // Check if the first row already has questions
+        String range = "Sheet1";
+        ValueRange firstRow = sheetsService.spreadsheets().values().get(spreadsheetId, range + "!1:1").execute();
+        List<List<Object>> values = firstRow.getValues();
+        boolean hasQuestions = values != null && values.size() > 0;
+
+        // Create a new value range to hold the reports to append
+        List<List<Object>> data = new ArrayList<>();
+        if (!hasQuestions) {
+            // If the first row doesn't have questions yet, add them
+            List<Object> firstRowData = new ArrayList<>();
+            for (ReportModel report : reports) {
+                firstRowData.add(report.getQuestion());
+            }
+            data.add(firstRowData);
+        }
+
+        // Add the report data to the value range
+        List<Object> rowData = new ArrayList<>();
+        if (!hasQuestions) {
+            // If we added the questions to the first row, skip them here
+            rowData.add("");
+        }
+        for (ReportModel report : reports) {
+            rowData.add(report.getAnswer());
+        }
+        data.add(rowData);
+
+        // Set the range for the report data
+        range += "!A" + (hasQuestions ? 2 : 1) + ":XFD" + (hasQuestions ? values.get(0).size() + 1 : reports.size() + 1);
+
+        // Create the value range object and append the data to the sheet
+        ValueRange body = new ValueRange().setValues(data);
+        AppendValuesResponse result = sheetsService.spreadsheets().values().append(spreadsheetId, range, body)
+                .setValueInputOption("RAW").execute();
+        Log.d("%d cells appended.", result.getUpdates().getUpdatedCells().toString());
     }
+
+
+
+
+
+
+
 }
