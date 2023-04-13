@@ -8,9 +8,14 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="item_completed_green">#9BEE83</color>
+    <color name="matte_black">#28282B</color>
     <color name="palete_1_1">#2F5D62</color>
     <color name="palete_1_2">#5E8B7E</color>
     <color name="palete_1_3">#A7C4BC</color>
     <color name="palete_1_4">#DFEEEA</color>
+    <color name="palete_2_1">#212121</color>
+    <color name="palete_2_2">#6D9886</color>
+    <color name="palete_2_3">#D9CAB3</color>
+    <color name="palete_2_4">#F6F6F6</color>
 
 </resources>

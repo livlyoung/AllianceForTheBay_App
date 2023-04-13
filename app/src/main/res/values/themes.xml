@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.RiparianReport" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.RiparianReport" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/item_completed_green</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -12,5 +12,6 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/black</item>
         <!-- Customize your theme here. -->
+        <item name="android:textColorHint">@color/palete_2_3</item>
     </style>
 </resources>

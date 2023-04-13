@@ -2,64 +2,136 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/matte_black"
+    >
 
     <TextView
         android:id="@+id/textViewTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
-        android:text="Login"
+        android:text="Riparian Report"
         android:textSize="24sp"
+        android:textColor="@color/palete_2_3"
+        android:fontFamily="@font/poppins_medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
-    <EditText
-        android:id="@+id/editTextEmail"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="24dp"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/login_stuff"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="200dp"
+        android:layout_marginBottom="200dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        >
+        <EditText
+            android:id="@+id/editTextEmail"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="24dp"
+            android:hint="Email"
+            android:fontFamily="@font/poppins_light"
+            android:inputType="textEmailAddress"
+            app:layout_constraintTop_toTopOf="@id/email_outline"
+            app:layout_constraintLeft_toLeftOf="@id/email_outline"
+            app:layout_constraintRight_toRightOf="@id/email_outline"
+            app:layout_constraintBottom_toBottomOf="@id/email_outline"
+            android:layout_marginBottom="17dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/palete_2_3"
+            android:textColorHint="@color/palete_2_3"
+            />
 
-    <EditText
-        android:id="@+id/editTextPassword"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:hint="Password"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
+        <ImageView
+            android:id="@+id/email_outline"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:src="@drawable/user_email_outline"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            >
+        </ImageView>
 
-    <Button
-        android:id="@+id/buttonLogin"
-        android:layout_width="0dp"
+        <ImageView
+            android:id="@+id/password_outline"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:src="@drawable/user_email_outline"
+            app:layout_constraintTop_toBottomOf="@id/email_outline"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="20dp"
+            >
+        </ImageView>
+
+
+        <EditText
+            android:id="@+id/editTextPassword"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:hint="Password"
+            android:fontFamily="@font/poppins_light"
+            android:inputType="textPassword"
+            app:layout_constraintTop_toTopOf="@id/password_outline"
+            app:layout_constraintLeft_toLeftOf="@id/password_outline"
+            app:layout_constraintRight_toRightOf="@id/password_outline"
+            app:layout_constraintBottom_toBottomOf="@id/password_outline"
+            android:layout_marginBottom="17dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:textColor="@color/palete_2_3"
+            android:textColorHint="@color/palete_2_3"
+            />
+
+        <Button
+            android:id="@+id/buttonLogin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Login"
+            android:textColor="@color/matte_black"
+            android:background="@drawable/login_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/bottom_text"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Login"
+        android:layout_marginTop="16dp"
+        android:text="Don't have an account?"
+        android:fontFamily="@font/poppins_light"
+        android:textColor="@color/palete_2_3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+        app:layout_constraintTop_toBottomOf="@id/login_stuff"/>
 
     <TextView
         android:id="@+id/textViewSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Don't have an account? Sign up here."
+        android:text="Sign up"
+        android:fontFamily="@font/poppins_bold"
+        android:textColor="@color/palete_2_2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonLogin" />
+        app:layout_constraintTop_toBottomOf="@id/bottom_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
