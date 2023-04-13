@@ -4,38 +4,148 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/palete_1_1"
     tools:context=".Main">
 
 
-    <Button
-        android:id="@+id/report_button"
+    <ImageView
+        android:id="@+id/map_outline"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/outline"
+        >
+    </ImageView>
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintLeft_toLeftOf="@id/map_outline"
+        app:layout_constraintRight_toRightOf="@id/map_outline"
+        app:layout_constraintTop_toTopOf="@id/map_outline"
+        android:layout_marginTop="25dp"
+        android:src="@drawable/palete_1_1_place"
+        >
+    </ImageView>
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_previous_forms_button"
-        android:text="Fill out report"
+        app:layout_constraintLeft_toLeftOf="@id/map_outline"
+        app:layout_constraintRight_toRightOf="@id/map_outline"
+        app:layout_constraintBottom_toBottomOf="@id/map_outline"
+        android:layout_marginBottom="20dp"
+        android:text="Map"
+        android:fontFamily="@font/poppins_medium"
+        android:textSize="32sp"
+        android:textColor="@color/palete_1_4"
+        >
+    </TextView>
+    <Button
+        android:id="@+id/view_map_button"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:layout_constraintLeft_toLeftOf="@id/map_outline"
+        app:layout_constraintRight_toRightOf="@id/map_outline"
+        app:layout_constraintBottom_toBottomOf="@id/map_outline"
+        app:layout_constraintTop_toTopOf="@id/map_outline"
+        android:text=""
+        android:background="@android:color/transparent"
         />
+
+    <ImageView
+        android:id="@+id/report_outline"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/outline"
+        >
+    </ImageView>
+    <ImageView
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        app:layout_constraintLeft_toLeftOf="@id/report_outline"
+        app:layout_constraintRight_toRightOf="@id/report_outline"
+        app:layout_constraintTop_toTopOf="@id/report_outline"
+        android:layout_marginTop="35dp"
+        android:src="@drawable/palete_1_1_report"
+        >
+    </ImageView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/report_outline"
+        app:layout_constraintRight_toRightOf="@id/report_outline"
+        app:layout_constraintBottom_toBottomOf="@id/report_outline"
+        android:layout_marginBottom="20dp"
+        android:text="Report"
+        android:fontFamily="@font/poppins_medium"
+        android:textSize="32sp"
+        android:textColor="@color/palete_1_4"
+        >
+    </TextView>
+    <Button
+        android:id="@+id/report_button"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:layout_constraintRight_toRightOf="@id/report_outline"
+        app:layout_constraintLeft_toLeftOf="@id/report_outline"
+        app:layout_constraintTop_toTopOf="@id/report_outline"
+        app:layout_constraintBottom_toBottomOf="@id/report_outline"
+        android:text=""
+        android:background="@android:color/transparent"
+        />
+
+
+    <ImageView
+        android:id="@+id/history_outline"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/outline"
+        >
+    </ImageView>
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintLeft_toLeftOf="@id/history_outline"
+        app:layout_constraintRight_toRightOf="@id/history_outline"
+        app:layout_constraintTop_toTopOf="@id/history_outline"
+        android:layout_marginTop="25dp"
+        android:src="@drawable/palete_1_1_history"
+        >
+    </ImageView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/history_outline"
+        app:layout_constraintRight_toRightOf="@id/history_outline"
+        app:layout_constraintBottom_toBottomOf="@id/history_outline"
+        android:layout_marginBottom="20dp"
+        android:text="History"
+        android:fontFamily="@font/poppins_medium"
+        android:textSize="32sp"
+        android:textColor="@color/palete_1_4"
+        >
+    </TextView>
 
     <Button
         android:id="@+id/view_previous_forms_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="View previous reports"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:layout_constraintRight_toRightOf="@id/history_outline"
+        app:layout_constraintLeft_toLeftOf="@id/history_outline"
+        app:layout_constraintBottom_toBottomOf="@id/history_outline"
+        app:layout_constraintTop_toTopOf="@id/history_outline"
+        android:text=""
+        android:background="@android:color/transparent"
         />
 
-    <Button
-        android:id="@+id/view_map_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/view_previous_forms_button"
-        android:text="Go to map"
-        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
