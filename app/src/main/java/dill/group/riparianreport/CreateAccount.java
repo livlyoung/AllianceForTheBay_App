@@ -19,6 +19,16 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class CreateAccount extends AppCompatActivity {
 
+
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(i);
+    }
+
     private EditText editTextEmail, editTextPassword;
     private Button buttonSignUp;
 

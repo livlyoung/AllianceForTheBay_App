@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/splash_screen"
-    android:background="@color/white"
+    android:background="@color/matte_black"
     tools:context=".SplashScreen">
     
     <androidx.constraintlayout.widget.Guideline
@@ -13,36 +13,44 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.50"/>
+        app:layout_constraintGuide_percent="0.45"/>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/splashscreen_helper"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/halfway_guideline"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
     
     <ImageView
         android:id="@+id/bay_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@id/halfway_guideline"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:layout_constraintBottom_toTopOf="@id/halfway_guideline"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:src="@drawable/bay_logo"
         android:contentDescription="bay_logo1!"
-        android:paddingRight="20dp"
-        android:paddingLeft="10dp"
-        android:layout_marginTop="50dp"
-
+        android:paddingEnd="20dp"
+        android:paddingStart="10dp"
         />
 
     <ImageView
-        android:id="@+id/splash_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/leaf_logo"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/halfway_guideline"
+        app:layout_constraintTop_toBottomOf="@id/halfway_guideline"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:src="@drawable/ranger_logo"
         android:contentDescription="ranger_logo1!"
-        android:padding="30dp"
-        android:layout_marginBottom="80dp"
+        android:paddingRight="20dp"
+        android:paddingLeft="40dp"
+        android:paddingBottom="20dp"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

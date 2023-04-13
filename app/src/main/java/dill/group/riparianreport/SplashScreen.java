@@ -18,6 +18,8 @@ import java.util.concurrent.Executors;
 
 public class SplashScreen extends AppCompatActivity {
 
+
+
     SharedPreferences prefs = null;
     FirebaseAuth mAuth;
 
