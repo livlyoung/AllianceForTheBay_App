@@ -15,6 +15,9 @@
         android:theme="@style/Theme.RiparianReport"
         tools:targetApi="31">
         <activity
+            android:name=".EmptyHistory"
+            android:exported="false" />
+        <activity
             android:name=".Map"
             android:exported="false" />
         <activity
