@@ -43,11 +43,13 @@ class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.MyViewHolder> { /
         holder.question.setText(reportModels.get(position).getQuestion());
         if (reportModels.get(position).isAnswered()) {
             Log.d("Bind", String.valueOf(position));
+            holder.question.setTextColor(this.context.getColor(R.color.palete_2_3));
             holder.answer.setText(reportModels.get(position).getAnswer());
             holder.answer.setVisibility(View.VISIBLE);
             holder.cardView.setBackground(this.context.getDrawable(R.drawable.question_answered_green));
         } else {
             holder.answer.setVisibility(View.INVISIBLE);
+            holder.question.setTextColor(this.context.getColor(R.color.matte_black));
             holder.cardView.setBackground(this.context.getDrawable(R.drawable.question_not_answered));
         }
             // what other UI changes should happen when a question is Answered?

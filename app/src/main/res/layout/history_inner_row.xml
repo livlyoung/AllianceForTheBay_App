@@ -5,7 +5,9 @@
     android:layout_height="wrap_content"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
+    app:layout_constraintTop_toTopOf="parent"
+    android:background="@color/matte_black"
+    >
 
     <TextView
         android:id="@+id/history_inner_Q"
@@ -15,7 +17,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:textSize="18dp"
-        android:textStyle="bold"
+        android:fontFamily="@font/poppins_bold"
+        android:textColor="@color/palete_2_3"
         />
     <TextView
         android:id="@+id/history_inner_A"
@@ -26,6 +29,8 @@
         app:layout_constraintStart_toStartOf="parent"
         android:textAlignment="center"
         android:textSize="18dp"
+        android:fontFamily="@font/poppins_light"
+        android:textColor="@color/palete_2_2"
         android:paddingBottom="10dp"
         />
 

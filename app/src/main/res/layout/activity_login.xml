@@ -10,7 +10,7 @@
         android:id="@+id/textViewTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="150dp"
         android:text="Riparian Report"
         android:textSize="24sp"
         android:textColor="@color/palete_2_3"
@@ -26,10 +26,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="200dp"
-        android:layout_marginBottom="200dp"
+        android:layout_marginBottom="220dp"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
+        android:paddingTop="50dp"
         >
+        <ImageView
+            android:id="@+id/email_outline"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:src="@drawable/user_email_outline"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            >
+        </ImageView>
+
         <EditText
             android:id="@+id/editTextEmail"
             android:layout_width="match_parent"
@@ -42,23 +54,12 @@
             app:layout_constraintLeft_toLeftOf="@id/email_outline"
             app:layout_constraintRight_toRightOf="@id/email_outline"
             app:layout_constraintBottom_toBottomOf="@id/email_outline"
-            android:layout_marginBottom="17dp"
+            android:layout_marginBottom="20dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="15dp"
             android:textColor="@color/palete_2_3"
             android:textColorHint="@color/palete_2_3"
             />
-
-        <ImageView
-            android:id="@+id/email_outline"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:src="@drawable/user_email_outline"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            >
-        </ImageView>
 
         <ImageView
             android:id="@+id/password_outline"
@@ -101,9 +102,8 @@
             android:textColor="@color/matte_black"
             android:background="@drawable/login_button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/password_outline"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -112,12 +112,10 @@
         android:id="@+id/bottom_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:text="Don't have an account?"
         android:fontFamily="@font/poppins_light"
         android:textColor="@color/palete_2_3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/login_stuff"/>
 
@@ -130,7 +128,6 @@
         android:fontFamily="@font/poppins_bold"
         android:textColor="@color/palete_2_2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bottom_text" />
 

@@ -2,11 +2,11 @@
     <!-- Base application theme. -->
     <style name="Theme.RiparianReport" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/item_completed_green</item>
+        <item name="colorPrimary">@color/palete_2_2</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/item_completed_green</item>
+        <item name="colorSecondary">@color/palete_2_3</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->

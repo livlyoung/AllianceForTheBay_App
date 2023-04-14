@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/palete_1_1"
+    android:background="@color/matte_black"
     tools:context=".Main">
 
 
@@ -38,7 +38,7 @@
         android:text="Map"
         android:fontFamily="@font/poppins_medium"
         android:textSize="32sp"
-        android:textColor="@color/palete_1_4"
+        android:textColor="@color/palete_2_3"
         >
     </TextView>
     <Button
@@ -84,7 +84,7 @@
         android:text="Report"
         android:fontFamily="@font/poppins_medium"
         android:textSize="32sp"
-        android:textColor="@color/palete_1_4"
+        android:textColor="@color/palete_2_3"
         >
     </TextView>
     <Button
@@ -130,7 +130,7 @@
         android:text="History"
         android:fontFamily="@font/poppins_medium"
         android:textSize="32sp"
-        android:textColor="@color/palete_1_4"
+        android:textColor="@color/palete_2_3"
         >
     </TextView>
 
