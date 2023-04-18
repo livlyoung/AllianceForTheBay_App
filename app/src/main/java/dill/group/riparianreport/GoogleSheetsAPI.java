@@ -1,15 +1,22 @@
 package dill.group.riparianreport;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
+
 import android.util.Log;
 
 
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.DateTime;
 import com.google.api.client.util.Value;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.SheetsScopes;
@@ -110,9 +117,41 @@ public class GoogleSheetsAPI {
     }
 
 
+    /**
+     * Adds a new sheet to the specified spreadsheet.
+     *
+     * @param spreadsheetId The ID of the spreadsheet to add the sheet to.
+     * @param sheetTitle The title of the new sheet to be added.
+     * @param credentials The Google credentials to use for authentication.
+     * @throws IOException If an error occurs while communicating with the Sheets API.
+     * @throws GeneralSecurityException If there is a security-related error.
+     */
+    public static void addSheetToSpreadsheet(String spreadsheetId, String sheetTitle, GoogleCredentials credentials) throws IOException, GeneralSecurityException {
+        Sheets sheetsService = new Sheets.Builder(httpTransport, JSON_FACTORY, new HttpCredentialsAdapter(credentials))
+                .setApplicationName(APPLICATION_NAME)
+                .build();
 
+        // Create the new sheet with the specified title
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.submit(new Runnable() {
+            @Override
+            public void run() {
+                SheetProperties properties = new SheetProperties();
+                properties.setTitle(sheetTitle);
+                AddSheetRequest addSheetRequest = new AddSheetRequest();
+                addSheetRequest.setProperties(properties);
+                List<Request> requests = new ArrayList<>();
+                requests.add(new Request().setAddSheet(addSheetRequest));
+                BatchUpdateSpreadsheetRequest batchUpdateRequest = new BatchUpdateSpreadsheetRequest().setRequests(requests);
+                try {
+                    sheetsService.spreadsheets().batchUpdate(spreadsheetId, batchUpdateRequest).execute();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                Log.d("Spreadsheet added", "Success!");
 
+            }
+        });
 
-
-
+    }
 }
