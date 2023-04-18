@@ -5,8 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/splash_screen"
-    android:background="@color/matte_black"
+    android:background="@drawable/splashscreen_helper"
     tools:context=".SplashScreen">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/splashscreen_helper"/>
     
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/halfway_guideline"
@@ -14,16 +19,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.45"/>
-
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:src="@drawable/splashscreen_helper"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/halfway_guideline"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"/>
-
     
     <ImageView
         android:id="@+id/bay_logo"
@@ -32,7 +27,7 @@
         app:layout_constraintBottom_toTopOf="@id/halfway_guideline"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:src="@drawable/bay_logo"
+        android:src="@drawable/bay_clear"
         android:contentDescription="bay_logo1!"
         android:paddingEnd="20dp"
         android:paddingStart="10dp"

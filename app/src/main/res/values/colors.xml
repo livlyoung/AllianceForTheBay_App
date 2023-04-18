@@ -17,5 +17,9 @@
     <color name="palete_2_2">#6D9886</color>
     <color name="palete_2_3">#D9CAB3</color>
     <color name="palete_2_4">#F6F6F6</color>
+    <color name="matte_light">#7e7e80</color>
+    <color name="matte_med">#535355</color>
+    <color name="matte_close">#3e3e40</color>
+
 
 </resources>
