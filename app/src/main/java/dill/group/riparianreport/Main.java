@@ -75,7 +75,7 @@ public class Main extends AppCompatActivity {
 
         //Initialize and fill array of locations for Report.java
         locations = new HashMap<String, String>();
-        getLocations();
+        //getLocations();
 
 
         Button reportButton = findViewById(R.id.report_button);
@@ -255,28 +255,28 @@ public class Main extends AppCompatActivity {
     This method pulls all of the locations listed within the database and stores them within
     a global HashMap for use within Report.java.
      */
-    private void getLocations(){
-        databaseR.child("Locations").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    Log.e("firebase", "Error getting locations", task.getException());
-                }
-                else {
-                    DataSnapshot dss = task.getResult();
-                    if(dss.hasChildren()){
-                        Iterator<DataSnapshot> iter = dss.getChildren().iterator();
-                        while (iter.hasNext()){
-                            DataSnapshot snap = iter.next();
-                            String location = (String) snap.getValue();
-                            String name = (String) snap.getKey();
-                            locations.put(name, location);
-                        }
-                    }
-                }
-            }
-        });
-    }
+//    private void getLocations(){
+//        databaseR.child("Locations").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DataSnapshot> task) {
+//                if (!task.isSuccessful()) {
+//                    Log.e("firebase", "Error getting locations", task.getException());
+//                }
+//                else {
+//                    DataSnapshot dss = task.getResult();
+//                    if(dss.hasChildren()){
+//                        Iterator<DataSnapshot> iter = dss.getChildren().iterator();
+//                        while (iter.hasNext()){
+//                            DataSnapshot snap = iter.next();
+//                            String location = (String) snap.getValue();
+//                            String name = (String) snap.getKey();
+//                            locations.put(name, location);
+//                        }
+//                    }
+//                }
+//            }
+//        });
+//    }
 
 
     public void handleLogoutButton() {
@@ -291,7 +291,9 @@ public class Main extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // Logout
                         mAuth.signOut();
-                        Toast.makeText(Main.this, "Signed out successfully.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Signed out successfully.", Toast.LENGTH_SHORT).show();
+                        Intent logIn = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivity(logIn);
                         dialogInterface.cancel();
                     }
                 })

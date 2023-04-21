@@ -17,11 +17,16 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 
+
+/**
+ This class provides the functionality to create a new user
+ account and register them with Firebase.
+ */
 public class CreateAccount extends AppCompatActivity {
 
-
-
-
+    /**
+     Overrides the default behavior of the Back button to navigate to the Login screen.
+     */
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -32,10 +37,15 @@ public class CreateAccount extends AppCompatActivity {
     private EditText editTextEmail, editTextPassword;
     private Button buttonSignUp;
 
+
+    //This variable holds the email address of the user, which is used to identify them in the app.
     public static String Globalemail;
 
     private FirebaseAuth mAuth;
 
+    /**
+     Sets up the UI and initializes the Firebase authentication instance.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +64,11 @@ public class CreateAccount extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     Validates the user input, creates a new account with Firebase,
+     and logs the user in if successful.
+     */
 
     private void createAccount() {
         String email = editTextEmail.getText().toString().trim();
