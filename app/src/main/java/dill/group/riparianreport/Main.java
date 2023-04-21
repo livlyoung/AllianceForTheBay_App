@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -289,6 +290,8 @@ public class Main extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // Logout
+                        mAuth.signOut();
+                        Toast.makeText(Main.this, "Signed out successfully.", Toast.LENGTH_SHORT).show();
                         dialogInterface.cancel();
                     }
                 })

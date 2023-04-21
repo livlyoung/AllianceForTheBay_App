@@ -18,6 +18,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ LoginActivity class represents the activity for the user login screen
+ */
 public class LoginActivity extends AppCompatActivity {
 
     @Override
@@ -35,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //cast email to all Lowercase!!!!!!
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -116,4 +120,5 @@ public class LoginActivity extends AppCompatActivity {
 
         return valid;
     }
+
 }
