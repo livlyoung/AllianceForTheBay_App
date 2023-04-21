@@ -104,10 +104,7 @@ public class GoogleSheetsAPI {
 
         // Add the report data to the value range
         List<Object> rowData = new ArrayList<>();
-//        if (!hasQuestions) {
-//            // If we added the questions to the first row, skip them here
-//            rowData.add("");
-//        }
+
         for (ReportModel report : reports) {
             rowData.add(report.getAnswer());
         }
