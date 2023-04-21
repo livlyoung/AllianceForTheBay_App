@@ -71,7 +71,7 @@ public class CreateAccount extends AppCompatActivity {
      */
 
     private void createAccount() {
-        String email = editTextEmail.getText().toString().trim();
+        String email = editTextEmail.getText().toString().toLowerCase().trim();
         String password = editTextPassword.getText().toString().trim();
 
         if (email.isEmpty()) {
@@ -105,7 +105,7 @@ public class CreateAccount extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), "Account created successfully", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(CreateAccount.this, Main.class);
-                            Globalemail = email.replace(".", ",");
+                            Globalemail = email.replace(".", ",").toLowerCase();
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
                             finish();

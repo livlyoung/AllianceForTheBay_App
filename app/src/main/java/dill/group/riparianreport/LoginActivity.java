@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
+                signIn(mEmailField.getText().toString(), mPasswordField.getText().toString().toLowerCase());
             }
         });
 
@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                 Intent i = new Intent(getApplicationContext(), CreateAccount.class);
                 startActivity(i);
                 finish();
-                LoginActivity.Globalemail = CreateAccount.Globalemail;
+                LoginActivity.Globalemail = CreateAccount.Globalemail.toLowerCase();
 
             }
         });
@@ -86,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(LoginActivity.this, "Authentication succeeded.", Toast.LENGTH_SHORT).show();
-                            Globalemail = email.replace(".", ",");
+                            Globalemail = email.replace(".", ",").toLowerCase();
                             Intent intent = new Intent(LoginActivity.this, Main.class);
                             startActivity(intent);
                             finish();
@@ -102,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
     private boolean validateForm() {
         boolean valid = true;
 
-        String email = mEmailField.getText().toString();
+        String email = mEmailField.getText().toString().toLowerCase();
         if (TextUtils.isEmpty(email)) {
             mEmailField.setError("Required.");
             valid = false;
