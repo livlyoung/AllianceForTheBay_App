@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                 Intent i = new Intent(getApplicationContext(), CreateAccount.class);
                 startActivity(i);
                 finish();
-                LoginActivity.Globalemail = CreateAccount.Globalemail.toLowerCase();
+                LoginActivity.Globalemail = CreateAccount.Globalemail;
 
             }
         });
