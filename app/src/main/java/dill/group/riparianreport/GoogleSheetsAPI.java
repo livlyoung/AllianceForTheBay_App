@@ -39,26 +39,17 @@ public class GoogleSheetsAPI {
 
     }
 
+    /**
+     Returns a Sheets service object initialized with the given Google credentials.
+     @param credentials the Google credentials to use for authentication
+     @return a Sheets service object
+     @throws IOException if an error occurs while initializing the Sheets service
+     */
     public static Sheets getSheetsService(GoogleCredentials credentials) throws IOException {
         HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(credentials);
         return new Sheets.Builder(httpTransport, JSON_FACTORY, requestInitializer)
                 .setApplicationName(APPLICATION_NAME).build();
     }
-
-    public static void writeData(String spreadsheetId, String value, GoogleCredentials credentials) throws IOException {
-        Sheets sheetsService = getSheetsService(credentials);
-        if (sheetsService == null) {
-            Log.d("SheetsService", "SheetsService is null!");
-            return;
-        }
-        List<List<Object>> values = Arrays.asList(Arrays.asList(value));
-        String range = "Sheet1!A1:XFD1048576";
-        ValueRange body = new ValueRange().setValues(values);
-        UpdateValuesResponse result = sheetsService.spreadsheets().values().update(spreadsheetId, range, body)
-                .setValueInputOption("RAW").execute();
-        Log.d("%d cells updated.", result.getUpdatedCells().toString());
-    }
-
 
     /**
      * Appends a list of ReportModel objects to a specified Google Sheets spreadsheet.
@@ -70,16 +61,32 @@ public class GoogleSheetsAPI {
      * @param reports       the list of ReportModel objects to write
      * @param credentials   the GoogleCredentials object used to authenticate the Sheets API
      * @throws IOException if an error occurs while writing to the sheet
+     * @throws GeneralSecurityException If there is a security-related error.
      */
-    public static void appendReports(String spreadsheetId, List<ReportModel> reports, GoogleCredentials credentials) throws IOException {
+    public static void appendReports(String spreadsheetId, List<ReportModel> reports, GoogleCredentials credentials, String subSheet) throws IOException, GeneralSecurityException {
         Sheets sheetsService = getSheetsService(credentials);
         if (sheetsService == null) {
             Log.d("SheetsService", "SheetsService is null!");
             return;
         }
 
+        Spreadsheet spreadsheet = sheetsService.spreadsheets().get(spreadsheetId).execute();
+        boolean sheetExists = false;
+        for (Sheet sheet : spreadsheet.getSheets()) {
+            if (sheet.getProperties().getTitle().equals(subSheet)) {
+                sheetExists = true;
+                break;
+            }
+        }
+        if (!sheetExists) {
+            // If the subsheet does not exist, add it to the spreadsheet
+            addSheetToSpreadsheet(spreadsheetId, subSheet, credentials);
+            appendReports(spreadsheetId, reports, credentials, subSheet);
+            return;
+        }
+
         // Check if the first row already has questions
-        String range = "Sheet1";
+        String range = subSheet;
         ValueRange firstRow = sheetsService.spreadsheets().values().get(spreadsheetId, range + "!1:1").execute();
         List<List<Object>> values = firstRow.getValues();
         boolean hasQuestions = values != null && values.size() > 0;
@@ -97,10 +104,10 @@ public class GoogleSheetsAPI {
 
         // Add the report data to the value range
         List<Object> rowData = new ArrayList<>();
-        if (!hasQuestions) {
-            // If we added the questions to the first row, skip them here
-            rowData.add("");
-        }
+//        if (!hasQuestions) {
+//            // If we added the questions to the first row, skip them here
+//            rowData.add("");
+//        }
         for (ReportModel report : reports) {
             rowData.add(report.getAnswer());
         }
@@ -108,6 +115,7 @@ public class GoogleSheetsAPI {
 
         // Set the range for the report data
         range += "!A" + (hasQuestions ? 2 : 1) + ":XFD" + (hasQuestions ? values.get(0).size() + 1 : reports.size() + 1);
+        Log.d("the range", range.toString());
 
         // Create the value range object and append the data to the sheet
         ValueRange body = new ValueRange().setValues(data);
@@ -153,5 +161,48 @@ public class GoogleSheetsAPI {
             }
         });
 
+    }
+
+    /**
+     * Checks if a subsheet with the given name exists in the given spreadsheet.
+     *
+     * @param spreadsheetId The ID of the spreadsheet to check for the subsheet.
+     * @param subsheetName The name of the subsheet to check for in the spreadsheet.
+     * @return True if the subsheet exists in the spreadsheet, false otherwise.
+     * @throws IOException If an error occurs while communicating with the Google Sheets API.
+     */
+    public static boolean checkIfSubsheetExists(String spreadsheetId, String subsheetName, GoogleCredentials credentials) throws IOException {
+        // Get the Sheets service instance
+        Sheets service = getSheetsService(credentials);
+        // Get the spreadsheet object
+        Spreadsheet spreadsheet = service.spreadsheets().get(spreadsheetId).execute();
+        // Get the list of sheets in the spreadsheet
+        List<Sheet> sheets = spreadsheet.getSheets();
+        // Loop through each sheet and check if the sheet's title matches the given sub-sheet name
+        for (Sheet sheet : sheets) {
+            if (sheet.getProperties().getTitle().equals(subsheetName)) {
+                return true; // Sub-sheet exists, return true
+            }
+        }
+        // Sub-sheet does not exist, return false
+        return false;
+    }
+
+
+    /**
+     Write data was just for testing purposes
+     **/
+    public static void writeData(String spreadsheetId, String value, GoogleCredentials credentials) throws IOException {
+        Sheets sheetsService = getSheetsService(credentials);
+        if (sheetsService == null) {
+            Log.d("SheetsService", "SheetsService is null!");
+            return;
+        }
+        List<List<Object>> values = Arrays.asList(Arrays.asList(value));
+        String range = "Sheet1!A1:XFD1048576";
+        ValueRange body = new ValueRange().setValues(values);
+        UpdateValuesResponse result = sheetsService.spreadsheets().values().update(spreadsheetId, range, body)
+                .setValueInputOption("RAW").execute();
+        Log.d("%d cells updated.", result.getUpdatedCells().toString());
     }
 }

@@ -261,29 +261,29 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
             executorService.submit(new Runnable() {
                 @Override
                 public void run() {
-                    String spreadsheetID = "1viMvjqx8xCIUtwZ1Isy1hlIkWYH7fna0o3ea1Rr8JWo";
-                    //String email = "googlesheetsapi@allianceforthebayapp.iam.gserviceaccount.com";
+                    // explain here some stuff here add comments (my note to self -liv)....
+                    //String spreadsheetID = "1w0wuukNIylydlSAfEktT-bKT-Fwq8J7bNeAL3qWII4Q"; //the client
+                    //String subSheet = "questionsv1";  //the client
+                    String subSheet = "Sheet2"; //our test sheet
+                    String spreadsheetID = "1viMvjqx8xCIUtwZ1Isy1hlIkWYH7fna0o3ea1Rr8JWo"; //our test sheet
                     AssetManager assetManager = getApplicationContext().getAssets();
                     InputStream inputStream;
-                    try {
-                        inputStream = assetManager.open("allianceforthebayapp-7ef0da005605.json");
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
                     GoogleCredentials credentials;
                     try {
+                        inputStream = assetManager.open("allianceforthebayapp-7ef0da005605.json");
                         credentials  = GoogleCredentials.fromStream(inputStream);
+                        GoogleSheetsAPI.appendReports(spreadsheetID, reportModels, credentials, subSheet);
                     } catch (IOException e) {
+                        e.printStackTrace();
                         throw new RuntimeException(e);
-                    }
-                    try {
-                        //GoogleSheetsAPI.addSheetToSpreadsheet(spreadsheetID, "newSheetTest", credentials);
-                        GoogleSheetsAPI.appendReports(spreadsheetID, reportModels, credentials);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
             });
+            addToDatabase();
+            Intent i = new Intent(this, Main.class);
+            startActivity(i);
 
             ExecutorService executor = Executors.newSingleThreadExecutor();
             executor.submit(new Runnable() {
@@ -322,7 +322,7 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
         }
     }
 
-    /*
+    /**
     addToDatabase() has no parameters. It asynchronously accesses an instance of the database
     to add information to it. For each reportModel in the ArrayList, the question is added as
     a column attribute and the answer is added as an entry.
