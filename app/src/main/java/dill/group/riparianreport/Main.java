@@ -40,12 +40,13 @@ public class Main extends AppCompatActivity {
     public static HashMap<String, HashMap<String, String>> dictionary;
 
     public static String[] dates;
-    public static String[] questions;
     public static ArrayList<String[]> choices;
     public static ArrayList<String> questionsForForm;
     public static ArrayList<String> names;
     public static ArrayList<String> locations;
     public static ArrayList<HashMap<String, String>> reports;
+
+    public static String questionVersion;
     FirebaseAuth mAuth;
     static DatabaseReference databaseR;
 
@@ -80,10 +81,6 @@ public class Main extends AppCompatActivity {
         choices = new ArrayList<String[]>();
         questionsForForm = new ArrayList<String>();
         getQuestionsFromDatabase();
-
-        Log.d("Main", "it came back!!!!!!!");
-
-
 
 
 
@@ -231,7 +228,7 @@ public class Main extends AppCompatActivity {
     questions, choices, and choicetypes. Is mainly used to set up the report form on report.java.
      */
     private void getQuestionsFromDatabase(){
-        databaseR.child("Questions").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        databaseR.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
@@ -239,6 +236,15 @@ public class Main extends AppCompatActivity {
                 }
                 else {
                     DataSnapshot dss = task.getResult();
+                    Iterator<DataSnapshot> i = dss.getChildren().iterator();
+                    while(i.hasNext()){
+                        DataSnapshot s = i.next();
+                        String q = (String) s.getKey();
+                        if(q.contains("Questions")){
+                            questionVersion = q;
+                        }
+                    }
+                    dss = dss.child(questionVersion);
                     if(dss.hasChildren()){
                         Iterator<DataSnapshot> iter = dss.getChildren().iterator();
                         while (iter.hasNext()){
