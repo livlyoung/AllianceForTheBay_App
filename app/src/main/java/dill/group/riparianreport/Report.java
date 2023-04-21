@@ -18,6 +18,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.api.client.util.Value;
 import com.google.api.services.sheets.v4.model.AppendValuesResponse;
 import com.google.api.services.sheets.v4.model.ValueRange;
@@ -35,6 +37,8 @@ import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -58,6 +62,7 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
             {"TEXT"},
             {"MULTIPLE_CHOICE", "Understood"},
     };
+
 
     ArrayList<ReportModel> reportModels = new ArrayList<>();
     ReportAdapter adapter;
@@ -100,13 +105,12 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
 
     public ArrayList<ReportModel> setUpReportModels() {
         ArrayList<ReportModel> array = new ArrayList<>();
-        String[] reportQuestions = getResources().getStringArray(R.array.questions);
-        for(int i = 0; i < reportQuestions.length; i++) { // The length of reportQuestions is the number of guestions on the form
-            String type = choices[i][0];
+        for(int i = 0; i < Main.questionsForForm.size(); i++) { // The length of reportQuestions is the number of guestions on the form
+            String type = Main.choices.get(i)[0];
             if (type.equals("MULTIPLE_CHOICE") || type.equals("MULTIPLE_CHOICE_OTHER")) {
-                array.add(new ReportModel(type, reportQuestions[i], choices[i][1]));
+                array.add(new ReportModel(type, Main.questionsForForm.get(i), Main.choices.get(i)[1]));
             } else {
-                array.add(new ReportModel(type, reportQuestions[i]));
+                array.add(new ReportModel(type, Main.questionsForForm.get(i)));
             }
         }
         return array;
@@ -319,4 +323,6 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
             });
         }
     }
+
+
 }

@@ -29,33 +29,10 @@ import java.util.Set;
 public class History extends AppCompatActivity implements RecyclerViewInterface {
     private HashMap<String, HashMap<String, String>> dictionary;
 
-    String[] ques;
-    String[] dates; /*=  {
-            "3/1/2023",
-            "3/3/2023",
-            "3/3/2023",
-            "4/1/2023",
-            "4/2/2023",
-            "4/3/2023",
-            "5/1/2023",
-            "5/2/2023",
-            "5/3/2023",
-    };*/
-    private ArrayList<String[]> answers;/* = {    //Type of question followed by choices if it is a multiple choice question
-            "John Doe",
-            "3/1/2023",
-            "Lancaster",
-            "3 hours",
-            "Somewhat, it was mowed",
-            "No invasive species",
-            "30 Minuets",
-            "5",
-            "Manure",
-            "Deer",
-            "No",
-            "No",
-            "Understood",
-    };*/
+    String[] ques; //Questions from the form
+    String[] dates; //Dates of all previously submitted forms
+    private ArrayList<String[]> answers;   //ArrayList of answers for one form
+
 
 
     @Override
@@ -89,7 +66,6 @@ public class History extends AppCompatActivity implements RecyclerViewInterface 
 
 
 
-
     private String[] getQuestions(){
         String[] dates = dictionary.keySet().toArray(new String[0]);
         String curKey = dates[0];
@@ -98,14 +74,6 @@ public class History extends AppCompatActivity implements RecyclerViewInterface 
         return questions;
     }
 
-    private boolean checkEmpty(){
-        if(dates.length == 1){
-            if(dates[0].equals("-")){
-                return true;
-            }
-        }
-        return false;
-    }
 
     private ArrayList<String[]> getAnswers(){
         ArrayList<String[]> dateAnswers = new ArrayList<String[]>();

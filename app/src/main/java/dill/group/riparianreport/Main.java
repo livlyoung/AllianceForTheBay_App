@@ -2,6 +2,7 @@ package dill.group.riparianreport;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.activity.OnBackPressedDispatcher;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -23,6 +24,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.concurrent.ExecutorService;
@@ -36,7 +38,10 @@ public class Main extends AppCompatActivity {
 
     public static String[] dates;
     public static String[] questions;
+    public static ArrayList<String[]> choices;
+    public static ArrayList<String> questionsForForm;
     FirebaseAuth mAuth;
+    static DatabaseReference databaseR;
 
     @Override
     public void onBackPressed() {
@@ -53,7 +58,11 @@ public class Main extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         LoginActivity.Globalemail = user.getEmail().replace(".", ",");
+        databaseR = FirebaseDatabase.getInstance().getReference();
         readFromDatabase();
+        choices = new ArrayList<String[]>();
+        questionsForForm = new ArrayList<String>();
+        getQuestionsFromDatabase();
 
 
 
@@ -95,9 +104,8 @@ public class Main extends AppCompatActivity {
     This function accesses the database and pulls a datasnapshot from it (an instance of the database).
      */
     public static void readFromDatabase(){
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         String userId = LoginActivity.Globalemail;
-        mDatabase.child("users").child(userId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        databaseR.child("users").child(userId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
@@ -171,6 +179,10 @@ public class Main extends AppCompatActivity {
         return dates;
     }
 
+    /*
+    Formats the dates correctly (A.K.A if there are no previously submitted forms, it adds a "-" to
+    the list of dates).
+     */
     private boolean checkEmpty(){
         if(dates.length == 1){
             if(dates[0].equals("-")){
@@ -180,7 +192,54 @@ public class Main extends AppCompatActivity {
         return false;
     }
 
+    /*
+    Accesses the database and reads the questions from it. Uses parseQuestions to fill arrays for
+    questions, choices, and choicetypes. Is mainly used to set up the report form on report.java.
+     */
+    private void getQuestionsFromDatabase(){
+        DatabaseReference databaseR = FirebaseDatabase.getInstance().getReference();
+        databaseR.child("Questions").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                }
+                else {
+                    DataSnapshot dss = task.getResult();
+                    if(dss.hasChildren()){
+                        Iterator<DataSnapshot> iter = dss.getChildren().iterator();
+                        while (iter.hasNext()){
+                            DataSnapshot snap = iter.next();
+                            parseQuestions(snap);
+                        }
+                    }
+                }
+            }
+        });
+    }
 
+    /*
+    Reads the questions, choices, and choicetype from a datasnapshot of the database and parses
+    each to arrays. Is mainly used to set up the report form on report.java.
+     */
+    private void parseQuestions(DataSnapshot dss){
+        String[] choiceType;
+        String type = (String) dss.child("type").getValue();
+        String ch = (String) dss.child("choices").getValue();
+        String question = (String) dss.child("question").getValue();
+        if(!ch.contains("NONE")){
+            choiceType = new String[]{type, ch};
+        }
+        else{
+            choiceType = new String[]{type};
+        }
+        choices.add(choiceType);
+        questionsForForm.add(question);
+    }
+
+    private void getLocations(){
+
+    }
 
 
 
