@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "allianceforthebayapp",
+  "private_key_id": "0d05fe8eb70276493b1c2b27b096ea9f1a2c25ed",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEuwIBADANBgkqhkiG9w0BAQEFAASCBKUwggShAgEAAoIBAQDIJ2MGcjS62XWC\n96L0Y8mm7dcQB3ni9BbNGe6T+hBXv5a8qUXm/Vc1esGCVm21m82f2+MwUj3TfQpL\nS3BaEtlQ3j7641Ukky/VlPNe7oUtAe+wtwAR8TENvs+T6sKC3Q8rV/KbjPHpGFy5\nuvDlQSE8d5kIHujb++wVnSKxxqcUBSTrd0eECaNoJyFZpXPndWrinj+2dbD+Hvgy\nZbD2kZLFYY14/bPbYlVwwHG60l84UBAVyS8ZVtnXceulY2FYqQJIO9VXMYBC5tKc\nwkjvSwyLvWHdD2PeFFOcb1vQDcw6SppWbuW/N0LPtvntHns1EnpMLCWB0P7zoj0D\n2fPeq9H9AgMBAAECgf8uawHTaNEo8thVde9GMnOsq2y9NBYuGfJgMpvHMi+NBLub\ndVjWOGMShsnZNYUavxoDjv6tt40dAceuL0b0h/vUbtj3tc2KiUDPB0G/h5AYswqw\n7XUfsrkUsy3eFwMO2y/01cA14sg9C9+odwB03lT0qWLf6R2JRnVnQbTRuP05r/UY\nO4md74gN/GoU+0U/xz2jR8oksYJUGTNDTz1pGapxgMmeqzt3L9a44NSjRJckH8j8\n16SDESbxEQ8ONrsNacKhZqIEIOTtU2RPlP8JyCBKpw3zLE59yfUDwQeMq5pbo5Hi\npKQZR9zZ8870Hta+nSQeA7uvPqBgN3T1CrEWVhECgYEA6JIw2DvLJagSd7mhHqWu\nCd/q2C1lz7zEi8sAM7+vrbRzNqwXjpxG8z1c53UqN+FZ+Ky/QyR1dOBwcP9kmUxv\n6d8KtWy183hDclLoUBF9YKaaim57ndTEyoEW/tzhTOK4hFZa+QN/Hhn+zfnSVS68\nzDFZHlZIxcsG+i3GdzHNJiUCgYEA3FEvGsbHyUYqHG/kfWx6WAybvtA/PInjo9g7\nwZgZublM1beM66T+2RPZokqjqXxdmriw30ydnnNsRdqsFkY4yMpRuh23YfgJc8dq\n9kAU+8rMCwNQHMoYqJGJg9vMCKdkwrvbxJF/OqTThZbc4wyfPiD7dZgOKPb2NNwP\nehFhWPkCgYEAnv/bPunaH9uBDLMvEOnKS1v3jWW0FksCwGO/tqFVNNeKcRVEYa47\n323TRzZV77A0N4u6kuepGYebt9US7K9ST7y58IDrABH3YoCF7L+YTOx5+SxBfQ0K\noTuSAhn2Of9CkM8NEPMwA99X0W/7OVtjneIbAF+TDw6XrZB//9tfWrUCgYAdzhXT\nR4ULo6RayIBev2gltT70p3OGmxjit4QOAqeoSnsshnJYBrA7acYNgI93hE2detLi\nwpioMPE62gRh1wojj8tSpGaEqGuO8DF2MuEj1yGXc9FIs8Z2N4ok/n0xxoOJHKT0\niMJvipDbB7fGN5TrcMbT98ginpZcPFETsHo88QKBgG/H+IGS+N8yk1V0bHSqGB8W\nmg0xhSf0M6SHhgGvpNGz3lTlvuiqCKUOsiBSIDfpoRfZzZLGtnV//qLlsB3X4OeB\njSivkWwILlvMuOrMMLEhH6B372HDbS1qv4Ry6rxHP8CxjQ+5MHuodNjj7+4YEMFj\nE9EfQuI+UVVs36OOxyvc\n-----END PRIVATE KEY-----\n",
+  "client_email": "google-maps-api@allianceforthebayapp.iam.gserviceaccount.com",
+  "client_id": "117647147066396929362",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/google-maps-api%40allianceforthebayapp.iam.gserviceaccount.com"
+}

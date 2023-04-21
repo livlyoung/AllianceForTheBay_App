@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
@@ -35,6 +36,11 @@ android {
 
 
 dependencies {
+
+    // Google Maps support
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+
+
 
 
     // Google APIs and OAuth2 support
