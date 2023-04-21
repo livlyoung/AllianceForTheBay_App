@@ -265,9 +265,6 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
                     }
                 }
             });
-            addToDatabase();
-            Intent i = new Intent(this, Main.class);
-            startActivity(i);
 
             ExecutorService executor = Executors.newSingleThreadExecutor();
             executor.submit(new Runnable() {
@@ -279,18 +276,13 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
 
 
             ImageView check = findViewById(R.id.checkView);
-
-            //Animation a = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.upscale);
             check.setVisibility(View.VISIBLE);
             Animation b = AnimationUtils.loadAnimation(this, R.anim.upscale);
-            //check.setAnimation(a);
             check.setAnimation(b);
             check.animate();
             check.setVisibility(View.INVISIBLE);
 
-
             Handler handler = new Handler();
-
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -299,8 +291,6 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
                 }
             }, 2000);
 
-            //Intent i = new Intent(this, Main.class);
-            //startActivity(i);
         } else {
             Toast.makeText(this, "please answer all fields", Toast.LENGTH_SHORT).show();
         }
