@@ -11,10 +11,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 
@@ -280,10 +285,38 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
                 }
             });
 
-            addToDatabase();
+            ExecutorService executor = Executors.newSingleThreadExecutor();
+            executor.submit(new Runnable() {
+                @Override
+                public void run() {
+                    addToDatabase();
+                }
+            });
 
-            Intent i = new Intent(this, Main.class);
-            startActivity(i);
+
+            ImageView check = findViewById(R.id.checkView);
+
+            //Animation a = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.upscale);
+            check.setVisibility(View.VISIBLE);
+            Animation b = AnimationUtils.loadAnimation(this, R.anim.upscale);
+            //check.setAnimation(a);
+            check.setAnimation(b);
+            check.animate();
+            check.setVisibility(View.INVISIBLE);
+
+
+            Handler handler = new Handler();
+
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent i = new Intent(getApplicationContext(), Main.class);
+                    startActivity(i);
+                }
+            }, 2000);
+
+            //Intent i = new Intent(this, Main.class);
+            //startActivity(i);
         } else {
             Toast.makeText(this, "please answer all fields", Toast.LENGTH_SHORT).show();
         }

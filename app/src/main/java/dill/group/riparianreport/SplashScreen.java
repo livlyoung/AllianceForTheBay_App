@@ -81,7 +81,7 @@ public class SplashScreen extends AppCompatActivity {
                 }
 
             }
-        }, 3000);
+        }, 2500);
 
         prefs = getSharedPreferences("dill.group.riparianreport", MODE_PRIVATE);
 

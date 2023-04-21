@@ -3,8 +3,10 @@ package dill.group.riparianreport;
 import androidx.activity.OnBackPressedCallback;
 import androidx.activity.OnBackPressedDispatcher;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -83,6 +85,9 @@ public class Main extends AppCompatActivity {
 
         Button mapButton = findViewById(R.id.view_map_button);
         mapButton.setOnClickListener(view -> handleMapButton());
+
+        Button logoutButton = findViewById(R.id.logout_button);
+        logoutButton.setOnClickListener(view -> handleLogoutButton());
 
     }
 
@@ -273,6 +278,27 @@ public class Main extends AppCompatActivity {
     }
 
 
+    public void handleLogoutButton() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder
+                .setTitle("Logout")
+                .setMessage("Are you sure you would like to logout?").setIcon(R.drawable.warning)
+                .setCancelable(true)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // Logout
+                        dialogInterface.cancel();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                }).show();
+    }
 
 
 }
