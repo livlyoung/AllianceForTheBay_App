@@ -40,6 +40,7 @@ public class Main extends AppCompatActivity {
     public static String[] questions;
     public static ArrayList<String[]> choices;
     public static ArrayList<String> questionsForForm;
+    public static HashMap<String, String> locations;
     FirebaseAuth mAuth;
     static DatabaseReference databaseR;
 
@@ -54,16 +55,24 @@ public class Main extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Initialize Firebase Capabilities
         FirebaseApp.initializeApp(this);
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         LoginActivity.Globalemail = user.getEmail().replace(".", ",");
         databaseR = FirebaseDatabase.getInstance().getReference();
+
+        //Read previous forms from the database for History.java
         readFromDatabase();
+
+        //Initialize and fill arrays for questions for Report.java
         choices = new ArrayList<String[]>();
         questionsForForm = new ArrayList<String>();
         getQuestionsFromDatabase();
 
+        //Initialize and fill array of locations for Report.java
+        locations = new HashMap<String, String>();
+        getLocations();
 
 
         Button reportButton = findViewById(R.id.report_button);
@@ -197,7 +206,6 @@ public class Main extends AppCompatActivity {
     questions, choices, and choicetypes. Is mainly used to set up the report form on report.java.
      */
     private void getQuestionsFromDatabase(){
-        DatabaseReference databaseR = FirebaseDatabase.getInstance().getReference();
         databaseR.child("Questions").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -237,8 +245,31 @@ public class Main extends AppCompatActivity {
         questionsForForm.add(question);
     }
 
+    /*
+    This method pulls all of the locations listed within the database and stores them within
+    a global HashMap for use within Report.java.
+     */
     private void getLocations(){
-
+        databaseR.child("Locations").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting locations", task.getException());
+                }
+                else {
+                    DataSnapshot dss = task.getResult();
+                    if(dss.hasChildren()){
+                        Iterator<DataSnapshot> iter = dss.getChildren().iterator();
+                        while (iter.hasNext()){
+                            DataSnapshot snap = iter.next();
+                            String location = (String) snap.getValue();
+                            String name = (String) snap.getKey();
+                            locations.put(name, location);
+                        }
+                    }
+                }
+            }
+        });
     }
 
 
