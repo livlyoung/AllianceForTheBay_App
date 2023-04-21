@@ -51,30 +51,14 @@ import java.util.List;
 
 public class Report extends AppCompatActivity implements RecyclerViewInterface {
 
-
-    String[][] choices = {    //Type of question followed by choices if it is a multiple choice question
-            {"TEXT"},
-            {"DATE"},
-            {"TEXT"},
-            {"TEXT"},
-            {"MULTIPLE_CHOICE", "Yes, mowed and herbicide rings around shelters_Somewhat, it was mowed_Somewhat, there were herbicide rings_No, it did not look maintained"},
-            {"TEXT"},
-            {"TEXT"},
-            {"TEXT"},
-            {"MULTIPLE_CHOICE", "Manure_Livestock hoof prints_Livestock actively in the buffer_None"},
-            {"MULTIPLE_CHOICE_OTHER", "Deer_Voles_None"},
-            {"MULTIPLE_CHOICE_OTHER", "No_Yes, missing stakes_Yes, missing tubes_Yes, fencing problems"},
-            {"TEXT"},
-            {"MULTIPLE_CHOICE", "Understood"},
-    };
-
-
     ArrayList<ReportModel> reportModels = new ArrayList<>();
     ReportAdapter adapter;
 
     boolean free; // Limits user to answering one question at a time
 
     private DatabaseReference mDatabase; //Used to reference an instance of the database
+
+    public static String locName; //Name of the location of the current form being submitted
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -331,9 +315,12 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
         FirebaseApp.initializeApp(getApplicationContext());
         FirebaseDatabase data = FirebaseDatabase.getInstance();
         mDatabase = data.getReference("users/" + LoginActivity.Globalemail);
+        DatabaseReference rDatabase = data.getReference("Locations");
 
         //Generates a random key for each form submission for each user
         String questionSetId = mDatabase.child("questionSet").push().getKey();
+        HashMap<String, String> ans = new HashMap<String, String>();
+
 
         for(int i = 0; i < reportModels.size(); i++){
             final String attribute = reportModels.get(i).getQuestion();
@@ -343,9 +330,17 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if(attribute.contains(".")){
                         mDatabase.child(questionSetId).child(attribute.replace(".", ",")).setValue(answer);
+                        ans.put(attribute.replace(".", ","), answer);
                     }
                     else{
                         mDatabase.child(questionSetId).child(attribute).setValue(answer);
+                        ans.put(attribute, answer);
+                        if(attribute.equals("Site name or location")){
+                            //Assuming the answer is the NAME of the location, not the address
+                            rDatabase.child(answer).child("formID").setValue(questionSetId);
+                            rDatabase.child(answer).child("gmail").setValue(LoginActivity.Globalemail);
+                            locName = answer;
+                        }
                     }
                 }
 
@@ -355,7 +350,16 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
                 }
             });
         }
+        fillMapReport(ans);
     }
 
-
+    public static void fillMapReport(HashMap<String, String> ans){
+        int idx = -1;
+        for(int i = 0; i<Main.names.size(); i++){
+            if(locName.equals(Main.names.get(i))){
+                Main.reports.set(idx, ans);
+                break;
+            }
+        }
+    }
 }

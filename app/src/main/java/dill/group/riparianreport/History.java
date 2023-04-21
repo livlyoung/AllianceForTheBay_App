@@ -68,6 +68,7 @@ public class History extends AppCompatActivity implements RecyclerViewInterface 
 
     private String[] getQuestions(){
         String[] dates = dictionary.keySet().toArray(new String[0]);
+        dates = sortDates(dates);
         String curKey = dates[0];
         HashMap<String, String> h = dictionary.get(curKey);
         String[] questions = h.keySet().toArray(new String[0]);
@@ -78,6 +79,7 @@ public class History extends AppCompatActivity implements RecyclerViewInterface 
     private ArrayList<String[]> getAnswers(){
         ArrayList<String[]> dateAnswers = new ArrayList<String[]>();
         String[] dates = dictionary.keySet().toArray(new String[0]);
+        dates = sortDates(dates);
         for(int i = 0; i < dates.length; i++) {
             String curKey = dates[i];
             HashMap<String, String> h = dictionary.get(curKey);
@@ -85,6 +87,50 @@ public class History extends AppCompatActivity implements RecyclerViewInterface 
             dateAnswers.add(answers);
         }
         return dateAnswers;
+    }
+
+    public static String[] sortDates(String[] dates){
+        String[] sortedDates = Arrays.copyOf(dates, dates.length);
+
+        for (int i = 0; i < sortedDates.length - 1; i++) {
+            for (int j = i + 1; j < sortedDates.length; j++) {
+                if (compareDates(sortedDates[i], sortedDates[j]) > 0) {
+                    String temp = sortedDates[i];
+                    sortedDates[i] = sortedDates[j];
+                    sortedDates[j] = temp;
+                }
+            }
+        }
+
+        return sortedDates;
+    }
+
+    public static int compareDates(String date1, String date2) {
+        String[] parts1 = date1.split("/");
+        String[] parts2 = date2.split("/");
+        parts1[2] = (parts1[2].replace("||", "")).split("-")[0];
+        parts2[2] = (parts2[2].replace("||", "")).split("-")[0];
+        int month1 = Integer.parseInt(parts1[0]);
+        int day1 = Integer.parseInt(parts1[1]);
+        int year1 = Integer.parseInt(parts1[2]);
+        int month2 = Integer.parseInt(parts2[0]);
+        int day2 = Integer.parseInt(parts2[1]);
+        int year2 = Integer.parseInt(parts2[2]);
+        if (year1 < year2) {
+            return -1;
+        } else if (year1 > year2) {
+            return 1;
+        } else if (month1 < month2) {
+            return -1;
+        } else if (month1 > month2) {
+            return 1;
+        } else if (day1 < day2) {
+            return -1;
+        } else if (day1 > day2) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
 

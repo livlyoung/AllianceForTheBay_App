@@ -43,7 +43,9 @@ public class Main extends AppCompatActivity {
     public static String[] questions;
     public static ArrayList<String[]> choices;
     public static ArrayList<String> questionsForForm;
-    public static HashMap<String, String> locations;
+    public static ArrayList<String> names;
+    public static ArrayList<String> locations;
+    public static ArrayList<HashMap<String, String>> reports;
     FirebaseAuth mAuth;
     static DatabaseReference databaseR;
 
@@ -65,6 +67,12 @@ public class Main extends AppCompatActivity {
         LoginActivity.Globalemail = user.getEmail().replace(".", ",");
         databaseR = FirebaseDatabase.getInstance().getReference();
 
+        //Initialize and fill array of locations for Report.java
+        locations = new ArrayList<String>();
+        names = new ArrayList<String>();
+        reports = new ArrayList<HashMap<String, String>>();
+        getLocationsFromDatabase();
+
         //Read previous forms from the database for History.java
         readFromDatabase();
 
@@ -73,9 +81,10 @@ public class Main extends AppCompatActivity {
         questionsForForm = new ArrayList<String>();
         getQuestionsFromDatabase();
 
-        //Initialize and fill array of locations for Report.java
-        locations = new HashMap<String, String>();
-        //getLocations();
+        Log.d("Main", "it came back!!!!!!!");
+
+
+
 
 
         Button reportButton = findViewById(R.id.report_button);
@@ -133,6 +142,7 @@ public class Main extends AppCompatActivity {
                 }
             }
         });
+
     }
 
     /*
@@ -189,6 +199,15 @@ public class Main extends AppCompatActivity {
             }
             else{
                 dates[i] = "-";
+            }
+        }
+        for (int i = 0; i < dates.length - 1; i++) {
+            for (int j = i + 1; j < dates.length; j++) {
+                if (History.compareDates(dates[i], dates[j]) > 0) {
+                    String temp = dates[i];
+                    dates[i] = dates[j];
+                    dates[j] = temp;
+                }
             }
         }
         return dates;
@@ -255,28 +274,35 @@ public class Main extends AppCompatActivity {
     This method pulls all of the locations listed within the database and stores them within
     a global HashMap for use within Report.java.
      */
-//    private void getLocations(){
-//        databaseR.child("Locations").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DataSnapshot> task) {
-//                if (!task.isSuccessful()) {
-//                    Log.e("firebase", "Error getting locations", task.getException());
-//                }
-//                else {
-//                    DataSnapshot dss = task.getResult();
-//                    if(dss.hasChildren()){
-//                        Iterator<DataSnapshot> iter = dss.getChildren().iterator();
-//                        while (iter.hasNext()){
-//                            DataSnapshot snap = iter.next();
-//                            String location = (String) snap.getValue();
-//                            String name = (String) snap.getKey();
-//                            locations.put(name, location);
-//                        }
-//                    }
-//                }
-//            }
-//        });
-//    }
+    private void getLocationsFromDatabase(){
+        databaseR.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting locations", task.getException());
+                }
+                else {
+                    DataSnapshot dss = task.getResult();
+
+                    //For the Locations
+                    DataSnapshot dataSnapshot = dss.child("Locations");
+                    Iterator<DataSnapshot> iter = dataSnapshot.getChildren().iterator();
+                    while (iter.hasNext()){
+                        DataSnapshot snap = iter.next();
+                        String name = (String) snap.getKey();
+                        names.add(name);
+                        String loc = (String) snap.child("address").getValue();
+                        locations.add(loc);
+                        String gmail = (String) snap.child("gmail").getValue();
+                        String form = (String) snap.child("formID").getValue();
+                        HashMap<String, String> ans = parseAnswers(dss.child("users").child(gmail).child(form));
+                        reports.add(ans);
+                    }
+
+                }
+            }
+        });
+    }
 
 
     public void handleLogoutButton() {
