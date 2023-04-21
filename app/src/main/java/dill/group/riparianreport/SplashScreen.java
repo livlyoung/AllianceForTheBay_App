@@ -8,6 +8,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,6 +51,15 @@ public class SplashScreen extends AppCompatActivity {
             actionBar.hide();
         }
 
+        ImageView bay = findViewById(R.id.bay_logo);
+        ImageView leaf = findViewById(R.id.leaf_logo);
+
+        Animation a = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        bay.setAnimation(a);
+        leaf.setAnimation(a);
+        bay.animate();
+        leaf.animate();
+
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -69,7 +81,7 @@ public class SplashScreen extends AppCompatActivity {
                 }
 
             }
-        }, 2000);
+        }, 3000);
 
         prefs = getSharedPreferences("dill.group.riparianreport", MODE_PRIVATE);
 

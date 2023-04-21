@@ -4,16 +4,47 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EmptyHistory">
-
+    tools:context=".EmptyHistory"
+    android:background="@color/matte_black"
+    >
     <TextView
         android:id="@+id/no_forms_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/hand"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textColor="@color/palete_2_2"
+        android:text="No forms submitted!"
+        android:paddingBottom="20dp"
+        android:fontFamily="@font/poppins_medium"
+        />
+
+    <ImageView
+        android:id="@+id/hand"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/back_hand"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:text="No forms submitted!"/>
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/hand"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@color/palete_2_2"
+        android:text="Come back after submitting a report"
+        android:paddingTop="20dp"
+        android:fontFamily="@font/poppins_light"
+        />
+
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
