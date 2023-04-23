@@ -88,6 +88,8 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
                 throw new RuntimeException(e);
             }
         });
+
+        testLocations();
     }
 
 
@@ -146,9 +148,11 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
                 makeTextDialog(pos);
             } else if (type.equals("MULTIPLE_CHOICE") || type.equals("MULTIPLE_CHOICE_OTHER")) {
                 makeMultipleChoiceDialog(pos, type);
-                Log.d("Pressed", "MULTIPLE_OTHER");
+                //Log.d("Pressed", "MULTIPLE_OTHER");
             } else if (type.equals("DATE")) {
                 makeDateDialog(pos);
+            } else if (type.equals("LOCATION")) {
+                makeLocationDialog(pos);
             }
         }
     }
@@ -223,6 +227,24 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
         }, mYear, mMonth, mDay);
 
         dialog.show();
+    }
+
+    public void makeLocationDialog(int pos) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        String[] nameArray = Main.names.toArray(new String[Main.names.size()]);
+
+        alert.setTitle(reportModels.get(pos).getQuestion());
+        alert.setItems(nameArray, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // The 'which' argument contains the index position
+                // of the selected item
+                String answer = nameArray[which];
+                reportModels.get(pos).setAnswer(answer);
+                adapter.notifyItemChanged(pos);
+                //free = true;
+            }
+        });
+        alert.show();
     }
 
     public boolean formIsComplete() {
@@ -350,6 +372,13 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
                 Main.reports.set(idx, ans);
                 break;
             }
+        }
+    }
+
+    public static void testLocations() {
+        for(int i = 0; i < Main.names.size(); i++) {
+            Log.d("Locations", Main.names.get(i) + " " + Main.locations.get(i));
+            //System.out.println(Main.names.get(i) + " " + Main.locations.get(i));
         }
     }
 }
