@@ -326,6 +326,7 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
         } else {
             Toast.makeText(this, "please answer all fields", Toast.LENGTH_SHORT).show();
         }
+        Main.readFromDatabase();
     }
 
     /**

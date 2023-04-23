@@ -301,8 +301,15 @@ public class Main extends AppCompatActivity {
                         locations.add(loc);
                         String gmail = (String) snap.child("gmail").getValue();
                         String form = (String) snap.child("formID").getValue();
-                        HashMap<String, String> ans = parseAnswers(dss.child("users").child(gmail).child(form));
-                        reports.add(ans);
+                        if(!gmail.equals("null") && !form.equals("null")) {
+                            HashMap<String, String> ans = parseAnswers(dss.child("users").child(gmail).child(form));
+                            reports.add(ans);
+                        }
+                        else{
+                            HashMap<String, String> ans = new HashMap<>();
+                            ans.put("null", null);
+                            reports.add(ans);
+                        }
                     }
 
                 }
