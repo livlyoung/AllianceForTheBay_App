@@ -19,13 +19,13 @@ import com.google.firebase.auth.FirebaseAuth;
 
 
 /**
- This class provides the functionality to create a new user
- account and register them with Firebase.
+ * This class provides the functionality to create a new user
+ * account and register them with Firebase.
  */
 public class CreateAccount extends AppCompatActivity {
 
     /**
-     Overrides the default behavior of the Back button to navigate to the Login screen.
+     * Overrides the default behavior of the Back button to navigate to the Login screen.
      */
     @Override
     public void onBackPressed() {
@@ -44,7 +44,7 @@ public class CreateAccount extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
     /**
-     Sets up the UI and initializes the Firebase authentication instance.
+     * Sets up the UI and initializes the Firebase authentication instance.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +66,8 @@ public class CreateAccount extends AppCompatActivity {
     }
 
     /**
-     Validates the user input, creates a new account with Firebase,
-     and logs the user in if successful.
+     * Validates the user input, creates a new account with Firebase,
+     * and logs the user in if successful.
      */
 
     private void createAccount() {

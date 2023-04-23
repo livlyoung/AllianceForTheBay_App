@@ -19,16 +19,22 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 /**
- LoginActivity class represents the activity for the user login screen
+ * LoginActivity class is responsible for handling user login.
+ * It checks the user credentials using FirebaseAuth API,
+ * and provides an interface to log in to the application.
  */
 public class LoginActivity extends AppCompatActivity {
 
+    /**
+     * Overrides onBackPressed() method to finish all the activities in the back stack.
+     */
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         finishAffinity();
     }
 
+    // Initialize UI elements and Firebase instance variables
     private EditText mEmailField;
     private EditText mPasswordField;
 
@@ -36,20 +42,28 @@ public class LoginActivity extends AppCompatActivity {
 
     public static String Globalemail;
 
+    /**
+     * Sets up the LoginActivity UI and initializes Firebase instance variables.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //cast email to all Lowercase!!!!!!
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // Initialize FirebaseAuth instance
         mAuth = FirebaseAuth.getInstance();
 
+        // Set up UI elements
         mEmailField = findViewById(R.id.editTextEmail);
         mPasswordField = findViewById(R.id.editTextPassword);
 
         FirebaseUser user = mAuth.getCurrentUser();
 
+        // If a user is already logged in, fill in the email field with their email
         if (user != null) {
+            //The database doesn't allow the 'period' character so we
+            // need to change the dot in the email to a comma.
+            // It doesn't have to be a comma that's just what we chose
             mEmailField.setText(user.getEmail().replace(".", ","));
         }
 
@@ -61,6 +75,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // Set up create account button with onClick listener to launch the CreateAccount activity
         TextView createAccountButton = findViewById(R.id.textViewSignUp);
         createAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,15 +89,22 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Method to sign in the user using their email and password.
+     * It validates the email and password fields before signing in.
+     *
+     * @param email The email entered by the user.
+     * @param password The password entered by the user.
+     */
     private void signIn(String email, String password) {
         if (!validateForm()) {
             return;
         }
-
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        //Source: Chat GPT
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(LoginActivity.this, "Authentication succeeded.", Toast.LENGTH_SHORT).show();
@@ -98,8 +120,19 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-
+    /**
+     * This method is used to validate the form data entered by the user in the LoginActivity.
+     * It checks whether the email and password fields are empty.
+     * If they are empty, it sets an error message on the corresponding
+     * EditText view and sets the valid flag to false.
+     * If the fields are not empty, it clears the error message and leaves the
+     * valid flag unchanged. It returns the valid flag as a boolean
+     * value indicating whether the form data is valid or not.
+     *
+     * @return True if email and password fields are valid, false otherwise.
+     */
     private boolean validateForm() {
+        //Source: Chat GPT
         boolean valid = true;
 
         String email = mEmailField.getText().toString().toLowerCase();

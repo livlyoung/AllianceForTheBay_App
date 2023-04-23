@@ -40,12 +40,14 @@ public class GoogleSheetsAPI {
     }
 
     /**
-     Returns a Sheets service object initialized with the given Google credentials.
-     @param credentials the Google credentials to use for authentication
-     @return a Sheets service object
-     @throws IOException if an error occurs while initializing the Sheets service
+     * Returns a Sheets service object initialized with the given Google credentials.
+     *
+     * @param credentials the Google credentials to use for authentication
+     * @return a Sheets service object
+     * @throws IOException if an error occurs while initializing the Sheets service
      */
     public static Sheets getSheetsService(GoogleCredentials credentials) throws IOException {
+        // Source: Chat GPT
         HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(credentials);
         return new Sheets.Builder(httpTransport, JSON_FACTORY, requestInitializer)
                 .setApplicationName(APPLICATION_NAME).build();
@@ -70,6 +72,7 @@ public class GoogleSheetsAPI {
             return;
         }
 
+        //Source: Chat GPT
         Spreadsheet spreadsheet = sheetsService.spreadsheets().get(spreadsheetId).execute();
         boolean sheetExists = false;
         for (Sheet sheet : spreadsheet.getSheets()) {
@@ -111,7 +114,8 @@ public class GoogleSheetsAPI {
         data.add(rowData);
 
         // Set the range for the report data
-        range += "!A" + (hasQuestions ? 2 : 1) + ":XFD" + (hasQuestions ? values.get(0).size() + 1 : reports.size() + 1);
+        //Source: Chat GPT
+        range += "!A" + (hasQuestions ? 2 : 1) + ":XFD" + (hasQuestions ? values.get(0).size() + 1 : reports.size() + 1); //source : Chat GPT
         Log.d("the range", range.toString());
 
         // Create the value range object and append the data to the sheet
@@ -141,6 +145,7 @@ public class GoogleSheetsAPI {
         executorService.submit(new Runnable() {
             @Override
             public void run() {
+                //Source: Chat GPT
                 SheetProperties properties = new SheetProperties();
                 properties.setTitle(sheetTitle);
                 AddSheetRequest addSheetRequest = new AddSheetRequest();
@@ -187,7 +192,7 @@ public class GoogleSheetsAPI {
 
 
     /**
-     Write data was just for testing purposes
+     * writeData was just for testing purposes
      **/
     public static void writeData(String spreadsheetId, String value, GoogleCredentials credentials) throws IOException {
         Sheets sheetsService = getSheetsService(credentials);

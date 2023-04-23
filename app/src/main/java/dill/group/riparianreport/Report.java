@@ -267,11 +267,21 @@ public class Report extends AppCompatActivity implements RecyclerViewInterface {
             executorService.submit(new Runnable() {
                 @Override
                 public void run() {
-                    // explain here some stuff here add comments (my note to self -liv)....
-                    //String spreadsheetID = "1w0wuukNIylydlSAfEktT-bKT-Fwq8J7bNeAL3qWII4Q"; //the client
-                    //String subSheet = "questionsv1";  //the client
-                    String subSheet = Main.questionVersion; //our test sheet
-                    String spreadsheetID = "1viMvjqx8xCIUtwZ1Isy1hlIkWYH7fna0o3ea1Rr8JWo"; //our test sheet
+                    /**
+                     *  This section sets the spreadsheet ID, subSheet name,
+                     *  and Google Credentials required to append report models
+                     *  to a Google Sheet using the Google Sheets API. The
+                     *  credentials are obtained from the provided JSON file.
+                     *
+                     *  @param spreadsheetID The ID of the Google Sheet to append the report models to.
+                     *  @param reportModels The report models to append to the Google Sheet.
+                     *  @param subSheet The name of the subSheet in the Google Sheet to append the report models to.
+                     *  @throws RuntimeException If there is an IOException when attempting to open the JSON file.
+                     *  @throws Exception If there is an error obtaining the Google Credentials from the JSON file.
+                     */
+                    //String spreadsheetID = "1viMvjqx8xCIUtwZ1Isy1hlIkWYH7fna0o3ea1Rr8JWo"; //our test sheet
+                    String spreadsheetID = "1w0wuukNIylydlSAfEktT-bKT-Fwq8J7bNeAL3qWII4Q"; //the client
+                    String subSheet = Main.questionVersion;
                     AssetManager assetManager = getApplicationContext().getAssets();
                     InputStream inputStream;
                     GoogleCredentials credentials;
