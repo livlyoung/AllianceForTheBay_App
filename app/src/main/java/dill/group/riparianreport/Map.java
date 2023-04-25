@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -44,17 +45,30 @@ public class Map extends AppCompatActivity implements GoogleMap.OnMarkerClickLis
     public boolean onMarkerClick(@NonNull Marker marker) {
         // Upon clicking a specific marker, it will get the most recent report that was submitted from that location.
         String title = marker.getTitle();
-        HashMap<String,String> qa = new HashMap<String, String>();
+        ArrayList<String> questions = new ArrayList<String>();
+        ArrayList<String> answers = new ArrayList<String>();
         for (HashMap<String, String> curr : Main.reports) {
+            questions = new ArrayList<String>();
+            answers = new ArrayList<String>();
             if (Objects.equals(curr.get("Site name or location"), title)) {
                 for (String s : curr.keySet()) {
                     Log.d("DEBUG", s + " : " + curr.get(s));
-                    // TODO: Ask the others how to initialize a Report using this information
-                    // TODO: (Currently outputs to Logcat instead)
+                    questions.add(s);
+                    answers.add(curr.get(s));
                 }
-                qa = curr;
+                if (!questions.isEmpty()) {
+                    Intent i = new Intent(getApplicationContext(), HistoryInner.class);
+                    String[] qarray = questions.toArray(new String[0]);
+                    String[] aarray = answers.toArray(new String[0]);
+                    i.putExtra("questions",qarray);
+                    i.putExtra("answers",aarray);
+                    startActivity(i);
+                }
+
             }
         }
+
+
         return false;
     }
 
@@ -101,10 +115,10 @@ public class Map extends AppCompatActivity implements GoogleMap.OnMarkerClickLis
                     if (output != null) {
                         Random rng = new Random();
                         site_latlng.add(output);
-                        MarkerOptions markOpt = new MarkerOptions().position(output).title(title).icon(BitmapDescriptorFactory.defaultMarker((float)60.0 + rng.nextFloat()*(float)60.0)).alpha(0.3f);
+                        MarkerOptions markOpt = new MarkerOptions().position(output).title(title).icon(BitmapDescriptorFactory.defaultMarker((float)60.0 + rng.nextFloat()*(float)60.0)).alpha(0.5f);
                         for (HashMap<String, String> qa : Main.reports) {
                             if (Objects.equals(qa.get("Site name or location"), title)) {
-                                markOpt.alpha(0.9f);
+                                markOpt.alpha(1f);
                             }
                         }
                         googleMap.addMarker(markOpt);
