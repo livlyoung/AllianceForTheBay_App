@@ -90,8 +90,8 @@ public class Main extends AppCompatActivity {
         Button historyButton = findViewById(R.id.view_previous_forms_button);
         historyButton.setOnClickListener(view -> handleHistoryButton());
 
-        Button mapButton = findViewById(R.id.view_map_button);
-        mapButton.setOnClickListener(view -> handleMapButton());
+        //Button mapButton = findViewById(R.id.view_map_button);
+        //mapButton.setOnClickListener(view -> handleMapButton());
 
         Button logoutButton = findViewById(R.id.logout_button);
         logoutButton.setOnClickListener(view -> handleLogoutButton());
