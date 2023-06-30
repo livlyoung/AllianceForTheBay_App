@@ -146,6 +146,14 @@ public class Map extends AppCompatActivity implements GoogleMap.OnMarkerClickLis
 
     ArrayList<LatLng> site_latlng = new ArrayList<LatLng>();
 
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        Toast.makeText(Map.this, "Mapping feature removed.", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
